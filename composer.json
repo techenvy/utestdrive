@@ -9,12 +9,15 @@
       "email": "rao@booskills.com"
     }
   ],
-  "require": {},
+  "require": {
+    "boospot/boo-settings-helper": "dev-master"
+  },
   "autoload": {
     "classmap": [
       "includes",
       "admin",
-      "public"
+      "public",
+      "site"
     ]
   }
 }

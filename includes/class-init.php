@@ -87,6 +87,7 @@ class Init {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_taxonomy_hooks();
+		$this->define_site_create_hooks();
 
 		do_action( 'utestdrive_init_construct' );
 
@@ -152,6 +153,10 @@ class Init {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		/*
+		 * Added the plugin options menu and page
+		 */
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu_simple', 99 );
 
 	}
 
@@ -208,6 +213,22 @@ class Init {
 
 
 	}
+
+	/**
+	 * Register all of the hooks related to taxonomies
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_site_create_hooks() {
+
+		$site_create = new Site_Create( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'init', $site_create, 'init' );
+
+
+	}
+
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

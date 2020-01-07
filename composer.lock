@@ -1,0 +1,64 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a97a8ed0c658ab80ff01664ad6dbfeb9",
+    "packages": [
+        {
+            "name": "boospot/boo-settings-helper",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/boospot/boo-settings-helper.git",
+                "reference": "e7d3fd45c1c2be4b18a7df94581b47aeae38ad72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/boospot/boo-settings-helper/zipball/e7d3fd45c1c2be4b18a7df94581b47aeae38ad72",
+                "reference": "e7d3fd45c1c2be4b18a7df94581b47aeae38ad72",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "class-boo-settings-helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Rao Abid Ali",
+                    "email": "rao@booskills.com",
+                    "homepage": "https://booskills.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Helper class that lets you create options settings page securely and swiftly without dealing with WordPress Settings API.",
+            "homepage": "https://github.com/boospot/boo-settings-helper",
+            "keywords": [
+                "plugin options",
+                "plugin settings",
+                "settings page",
+                "wordpress",
+                "wordpress-plugin",
+                "wp-admin"
+            ],
+            "time": "2019-08-21T10:07:30+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "boospot/boo-settings-helper": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

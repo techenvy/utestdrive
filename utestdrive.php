@@ -14,9 +14,9 @@
  * @package           Utestdrive
  *
  * @wordpress-plugin
- * Plugin Name:       Utestdrive
+ * Plugin Name:       uTestDrive
  * Plugin URI:        https://boospot.com/
- * Description:       The Plugin to create Demo Test Drive setup for plugin and theme
+ * Description:       The Plugin to create Demo Test Drive setup for plugin and theme authors
  * Requires PHP:      7.0
  * Requires at least: 5.0
  * Tested up to:      5.3

@@ -13,6 +13,7 @@ return array(
     'Utestdrive\\Globals' => $baseDir . '/includes/class-globals.php',
     'Utestdrive\\Init' => $baseDir . '/includes/class-init.php',
     'Utestdrive\\Loader' => $baseDir . '/includes/class-loader.php',
+    'Utestdrive\\Shortcode' => $baseDir . '/includes/class-shortcode.php',
     'Utestdrive\\Site_Create' => $baseDir . '/site/class-site-create.php',
     'Utestdrive\\Taxonomy' => $baseDir . '/includes/class-taxonomy.php',
     'Utestdrive\\i18N' => $baseDir . '/includes/class-i18n.php',

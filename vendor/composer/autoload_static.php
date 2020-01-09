@@ -18,6 +18,7 @@ class ComposerStaticInitf953438782c78e200b21ad2e083164a7
         'Utestdrive\\Globals' => __DIR__ . '/../..' . '/includes/class-globals.php',
         'Utestdrive\\Init' => __DIR__ . '/../..' . '/includes/class-init.php',
         'Utestdrive\\Loader' => __DIR__ . '/../..' . '/includes/class-loader.php',
+        'Utestdrive\\Shortcode' => __DIR__ . '/../..' . '/includes/class-shortcode.php',
         'Utestdrive\\Site_Create' => __DIR__ . '/../..' . '/site/class-site-create.php',
         'Utestdrive\\Taxonomy' => __DIR__ . '/../..' . '/includes/class-taxonomy.php',
         'Utestdrive\\i18N' => __DIR__ . '/../..' . '/includes/class-i18n.php',

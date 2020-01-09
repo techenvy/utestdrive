@@ -66,25 +66,61 @@ class Site_Create {
 	 */
 	public function init() {
 
-		if ( ! isset( $_REQUEST['create_site'] ) ) {
+		if ( ! isset( $_REQUEST['utd_register_submit'] ) ) {
 			return null;
 		}
 
-		$nonce = $_REQUEST['_nonce_test_drive'] ?? '';
-		if ( ! wp_verify_nonce( $nonce, 'create_test_drive' ) ) {
-			wp_die( $this->get_error_message( 'invalid_nonce' ) );
+		$nonce    = $_REQUEST['_nonce_test_drive'] ?? '';
+		$redirect = add_query_arg( 'test_setup', 'failed', parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
 
-			return null;
+		if ( ! wp_verify_nonce( $nonce, 'create_test_drive' ) ) {
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'invalid_nonce' ) ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
 		};
 
 		$this->set_user_details();
-		$this->user_id = $this->create_user();
 
-		if ( ! empty( $this->user_id ) ) {
-			$this->create_site();
+		if ( empty( $this->user_name ) || in_array( $this->user_name, $this->get_invalid_user_name_list(), true ) ) {
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'invalid_user_name' ) ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
 		}
 
-		$this->send_response( 'site_created', true );
+		if ( empty( $this->user_email ) ) {
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'invalid_email' ) ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
+		}
+
+		if ( empty( $this->user_name ) || empty( $this->user_email ) ) {
+			$redirect = add_query_arg( 'message', urlencode( 'Email is not validated.' . $this->user_email ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
+
+		}
+
+		$this->user_id = $this->create_user();
+
+		if ( ! $this->user_id ) {
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'user_exist' ) . var_export( $this->user_id, true ) ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
+		}
+
+		$blog_id = $this->create_site();
+
+		if ( ! $blog_id ) {
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'create_site' ) ), $redirect );
+			wp_safe_redirect( $redirect );
+			exit;
+		}
+
+		$redirect = add_query_arg( 'test_setup', 'success', $redirect );
+		$redirect = add_query_arg( 'message', apply_filters( 'utestdrive_success_message', '' ), $redirect );
+
+		wp_safe_redirect( $redirect );
+		exit;
 
 	}
 
@@ -93,12 +129,15 @@ class Site_Create {
 	 */
 	public function get_error_message( $code ) {
 
-		$errors = array(
-			'invalid_nonce' => esc_html__( 'Security token invalid', 'utestdrive' )
-		);
+		$errors = apply_filters( 'utestdrive_error_messages_list', array(
+			'invalid_nonce'     => esc_html__( 'Security token invalid', 'utestdrive' ),
+			'user_exist'        => esc_html__( 'User already exist with provided email. Please try with another user details', 'utestdrive' ),
+			'create_site'       => esc_html__( 'There was an error creating site. Please try with different Email.', 'utestdrive' ),
+			'invalid_email'     => esc_html__( 'Please provide a valid email or use another email address.', 'utestdrive' ),
+			'invalid_user_name' => esc_html__( 'Please provide a valid name', 'utestdrive' ),
+		) );
 
 		return $errors[ $code ] ?? esc_html__( 'Unknown Error occurred', 'utestdrive' );
-
 
 	}
 
@@ -107,24 +146,76 @@ class Site_Create {
 	 */
 	public function set_user_details() {
 
-		$this->user_email = isset( $_REQUEST['email'] ) && is_email( sanitize_email( $_REQUEST['email'] ) ) ? sanitize_email( $_REQUEST['email'] ) : '';
-		$this->user_name  = isset( $_REQUEST['user'] ) ? sanitize_text_field( $_REQUEST['user'] ) : '';
+		$this->user_email = isset( $_REQUEST['utd_email'] ) && ! empty( sanitize_email( $_REQUEST['utd_email'] ) )
+			? sanitize_email( $_REQUEST['utd_email'] )
+			: '';
+		$this->user_name  = isset( $_REQUEST['utd_user'] ) ? sanitize_text_field( $_REQUEST['utd_user'] ) : '';
 
+		$this->user_name = $this->generate_unique_username( $this->user_name );
+	}
+
+	/**
+	 * @source https://gist.github.com/philipnewcomer/59a695415f5f9a2dd851deda42d0552f
+	 *
+	 * Recursive function to generate a unique username.
+	 *
+	 * If the username already exists, will add a numerical suffix which will increase until a unique username is found.
+	 *
+	 * @param string $username
+	 *
+	 * @return string The unique username.
+	 */
+	function generate_unique_username( $username ) {
+
+		$username = sanitize_user( $username );
+
+		static $i;
+		if ( null === $i ) {
+			$i = 1;
+		} else {
+			$i ++;
+		}
+		if ( ! username_exists( $username ) ) {
+			return $username;
+		}
+		$new_username = sprintf( '%s-%s', $username, $i );
+		if ( ! username_exists( $new_username ) ) {
+			return $new_username;
+		} else {
+			return call_user_func( array( $this, 'generate_unique_username' ), $username );
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function get_invalid_user_name_list() {
+
+		return apply_filters( 'utestdrive_invalid_user_name_list', array(
+			'admin',
+			'administrator',
+			'demo',
+			'demo123',
+			'guest',
+			'guest123',
+			'test',
+			'test123
+			',
+		) );
 	}
 
 	/**
 	 *
 	 */
 	public function create_user() {
-
-		if ( empty( $this->user_name ) || empty( $this->user_email ) ) {
+		// Check if user exists
+		if ( email_exists( $this->user_email ) ) {
 			return false;
-		} else {
-			$this->user_password = wp_generate_password();
-
-			return wpmu_create_user( $this->user_name, $this->user_password, $this->user_email );
 		}
 
+		$this->user_password = wp_generate_password();
+
+		return wpmu_create_user( $this->user_name, $this->user_password, $this->user_email );
 	}
 
 	/**
@@ -168,14 +259,7 @@ class Site_Create {
 	public function get_site_data() {
 		global $current_site;
 
-		$blog_address = '';
-		$address      = sanitize_key( $this->user_email );
-
-		if ( ! preg_match( '/(--)/', $address ) && preg_match( '|^([a-zA-Z0-9-])+$|', $address ) ) {
-			$blog_address = strtolower( $address );
-		}
-
-		$blog_title = $this->user_name;
+		$blog_address = sanitize_key( $this->user_email );
 
 		if ( empty( $blog_address ) || empty( $this->user_email ) || ! is_email( $this->user_email ) ) {
 			return array();
@@ -192,22 +276,9 @@ class Site_Create {
 		return array(
 			'domain' => $blog_domain,
 			'path'   => $path,
-			'title'  => $blog_title,
+			'title'  => $this->user_name,
 			'email'  => $this->user_email
 		);
-	}
-
-	/**
-	 *
-	 */
-	public function send_response( $code = '', $success = false ) {
-
-		if ( ! $success ) {
-			$msg = $this->get_error_message( $code );
-			wp_safe_redirect( 'https://SUpertest.com/?' . 'site_create_error=' . urlencode( $msg ) );
-		}
-
-
 	}
 
 

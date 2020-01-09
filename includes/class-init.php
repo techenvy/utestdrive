@@ -88,6 +88,8 @@ class Init {
 		$this->define_public_hooks();
 		$this->define_taxonomy_hooks();
 		$this->define_site_create_hooks();
+		$this->define_shortcode_hooks();
+
 
 		do_action( 'utestdrive_init_construct' );
 
@@ -228,6 +230,23 @@ class Init {
 
 
 	}
+
+	/**
+	 * Register Shortcodes
+	 */
+	public function define_shortcode_hooks() {
+
+		$plugin_shortcode = new Shortcode( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_shortcode(
+			"utd_reg_form",
+			$plugin_shortcode,
+			"hook_display_form"
+		);
+
+
+	}
+
 
 
 	/**

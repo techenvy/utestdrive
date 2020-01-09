@@ -59,7 +59,7 @@ class Site_Delete {
 	public function hook_schedule_cron() {
 
 		if ( ! wp_next_scheduled( 'utestdrive_auto_delete_test_drive_blog' ) ) {
-			wp_schedule_event( time(), 'hourly', 'utestdrive_auto_delete_test_drive_blog' );
+			wp_schedule_event( time(), 'wp_astra_theme_db_migration_cron_interval', 'utestdrive_auto_delete_test_drive_blog' );
 		}
 
 	}
@@ -69,10 +69,15 @@ class Site_Delete {
 	 */
 	public function cron_action_auto_delete_test_drive_blog() {
 
+		$user_ids_to_delete = $this->get_user_ids_to_delete();
+
+
+		if ( empty( $user_ids_to_delete ) ) {
+			return null;
+		}
+
 		require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 		require_once( ABSPATH . 'wp-admin/includes/user.php' );
-
-		$user_ids_to_delete = $this->get_user_ids_to_delete();
 
 		foreach ( $user_ids_to_delete as $user_id ) {
 

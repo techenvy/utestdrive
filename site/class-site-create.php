@@ -237,7 +237,7 @@ class Site_Create {
 
 		return apply_filters( 'utestdrive_new_user_meta_list', array(
 			'utestdrive_create_time'          => time(),
-			'utestdrive_schedule_delete_time' => time() + ( $this->get_expiry_in_hours() * 60 * 60 ),
+			'utestdrive_schedule_delete_time' => time() + ( $this->get_expiry_in_hours() * HOUR_IN_SECONDS ),
 			'utestdrive_test_drive_user'      => 1,
 		) );
 

@@ -15,6 +15,7 @@ return array(
     'Utestdrive\\Loader' => $baseDir . '/includes/class-loader.php',
     'Utestdrive\\Shortcode' => $baseDir . '/includes/class-shortcode.php',
     'Utestdrive\\Site_Create' => $baseDir . '/site/class-site-create.php',
+    'Utestdrive\\Site_Delete' => $baseDir . '/site/class-site-delete.php',
     'Utestdrive\\Taxonomy' => $baseDir . '/includes/class-taxonomy.php',
     'Utestdrive\\i18N' => $baseDir . '/includes/class-i18n.php',
 );

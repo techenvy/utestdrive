@@ -11,6 +11,10 @@ namespace Utestdrive;
  * @package    Utestdrive
  * @subpackage Utestdrive/public
  */
+// if class already defined, bail out
+if ( class_exists( 'Utestdrive\Site_Create' ) ) {
+	return;
+}
 
 /**
  * The public-facing functionality of the plugin.
@@ -215,7 +219,36 @@ class Site_Create {
 
 		$this->user_password = wp_generate_password();
 
-		return wpmu_create_user( $this->user_name, $this->user_password, $this->user_email );
+		$user_id = wpmu_create_user( $this->user_name, $this->user_password, $this->user_email );
+
+		if ( $user_id ) {
+			foreach ( $this->get_new_user_meta() as $meta_key => $meta_value ) {
+				update_user_meta( $user_id, $meta_key, $meta_value );
+			}
+		}
+
+		return $user_id;
+	}
+
+	/**
+	 *
+	 */
+	public function get_new_user_meta() {
+
+		return apply_filters( 'utestdrive_new_user_meta_list', array(
+			'utestdrive_create_time'          => time(),
+			'utestdrive_schedule_delete_time' => time() + ( $this->get_expiry_in_hours() * 60 * 60 ),
+			'utestdrive_test_drive_user'      => 1,
+		) );
+
+	}
+
+	/**
+	 *
+	 */
+	public function get_expiry_in_hours() {
+
+		return 24;
 	}
 
 	/**

@@ -87,8 +87,9 @@ class Init {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_taxonomy_hooks();
-		$this->define_site_create_hooks();
 		$this->define_shortcode_hooks();
+		$this->define_site_create_hooks();
+		$this->define_site_delete_hooks();
 
 
 		do_action( 'utestdrive_init_construct' );
@@ -217,21 +218,6 @@ class Init {
 	}
 
 	/**
-	 * Register all of the hooks related to taxonomies
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_site_create_hooks() {
-
-		$site_create = new Site_Create( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'init', $site_create, 'init' );
-
-
-	}
-
-	/**
 	 * Register Shortcodes
 	 */
 	public function define_shortcode_hooks() {
@@ -247,7 +233,41 @@ class Init {
 
 	}
 
+	/**
+	 * Register all of the hooks related to site creation
+	 *
+	 * @since    1.0.0
+	 */
+	public function define_site_create_hooks() {
 
+		$site_create = new Site_Create( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'init', $site_create, 'init' );
+
+
+	}
+
+	/**
+	 * Register all of the hooks related to delete site
+	 *
+	 * @since    1.0.0
+	 */
+	public function define_site_delete_hooks() {
+
+		$site_delete = new Site_Delete( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'wp', $site_delete, 'hook_schedule_cron' );
+
+		$this->loader->add_action( 'wp_head', $site_delete, 'cron_action_auto_delete_test_drive_blog' );
+
+		$this->loader->add_action(
+			'utestdrive_auto_delete_test_drive_blog',
+			$site_delete,
+			'cron_action_auto_delete_test_drive_blog'
+		);
+
+
+	}
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

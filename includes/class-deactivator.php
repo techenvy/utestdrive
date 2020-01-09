@@ -1,4 +1,5 @@
 <?php
+
 namespace Utestdrive;
 /**
  * Fired during plugin deactivation
@@ -30,6 +31,11 @@ class Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
+
+		// Un-Schedule Cron
+		$timestamp = wp_next_scheduled( 'utestdrive_auto_delete_test_drive_blog' );
+		wp_unschedule_event( $timestamp, 'utestdrive_auto_delete_test_drive_blog' );
+
 
 	}
 

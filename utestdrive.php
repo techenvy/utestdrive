@@ -52,7 +52,6 @@ define( 'UTESTDRIVE_PLUGIN_NAME', 'utestdrive' );
 define( 'UTESTDRIVE_PLUGIN_BASE_NAME', basename( __FILE__ ) );
 
 
-
 /**
  * Plugin base dir path.
  * used to locate plugin resources primarily code files
@@ -68,6 +67,11 @@ define( 'UTESTDRIVE_DIR_PATH', plugin_dir_path( __FILE__ ) );
  */
 /** @noinspection PhpUnused */
 define( 'UTESTDRIVE_URL_PATH', plugin_dir_url( __FILE__ ) );
+
+if ( ! defined( 'UTESTDRIVE_DEBUG_DISPLAY' ) ) {
+	define( 'UTESTDRIVE_DEBUG_DISPLAY', false );
+}
+
 
 /**
  * Composer Auto Loader

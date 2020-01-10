@@ -67,17 +67,18 @@ class Globals {
 	 *
 	 * @return bool|mixed
 	 */
-	public static function get_options_value( $option_id, $option_key ) {
+	public static function get_options_value( $option_id, $option_key = '' ) {
 
-		$options_array = self::get_options( $option_id );
+		$options_value = self::get_options( $option_id );
 
-		if ( empty( $option_key ) ) {
-			$get_options_value = ! empty( $options_array ) ? $options_array : self::get_default_options( $option_id );
+
+		if ( false !== $options_value ) {
+			$options_value = ( ! empty( $option_key ) && isset( $options_value[ $option_key ] ) ) ? $options_value[ $option_key ] : $options_value;
 		} else {
-			$get_options_value = isset( $options_array[ $option_key ] ) ? $options_array[ $option_key ] : self::get_default_options( $option_key );
+			$options_value = self::get_default_options( $option_id );
 		}
 
-		return $get_options_value;
+		return $options_value;
 	}
 
 	/**
@@ -102,7 +103,7 @@ class Globals {
 
 		// Only set options if not already set
 		if ( ! isset( self::$options[ $option_id ] ) ) {
-			self::$options[ $option_id ] = get_option( $option_id );
+			self::$options[ $option_id ] = get_option( self::$prefix . $option_id );
 		}
 
 	}
@@ -126,7 +127,9 @@ class Globals {
 	 */
 	public static function get_default_options_array() {
 
-		$default_options = array();
+		$default_options = array(
+			'test_site_expiry_in_hours' => 48
+		);
 
 		$default_options = apply_filters( 'utestdrive_admin_settings_default', $default_options );
 

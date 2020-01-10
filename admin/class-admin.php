@@ -54,7 +54,7 @@ class Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
+		$this->prefix      = Globals::get_meta_prefix();
 
 	}
 
@@ -147,7 +147,7 @@ class Admin {
 			// //The Menu Title in Wp Admin
 			'menu_title'      => __( 'uTestDrive', 'utestdrive' ),
 			// The capability needed to view the page
-			'capability'      => 'manage_options',
+			'capability'      => 'manage_network',
 			// Slug for the Menu page
 			'slug'            => 'utestdrive-settings',
 			// Required for submenu
@@ -190,27 +190,27 @@ class Admin {
 	function get_settings_sections() {
 		$sections = array(
 			array(
-				'id'    => 'settings_license',
-				'title' => __( 'License Settings', 'utestdrive' ),
+				'id'    => 'create_site',
+				'title' => __( 'Create Site', 'utestdrive' ),
 //				'desc'  => 'this is sweet'
 			),
 
 			array(
-				'id'    => 'settings_secret',
-				'title' => __( 'Secret', 'utestdrive' ),
+				'id'    => 'delete_site',
+				'title' => __( 'Delete Site', 'utestdrive' ),
 			),
-			array(
-				'id'    => 'settings_api',
-				'title' => __( 'API', 'utestdrive' ),
-			),
-			array(
-				'id'    => 'settings_woocommerce',
-				'title' => __( 'WooCommerce', 'utestdrive' ),
-			),
-			array(
-				'id'    => 'settings_envato',
-				'title' => __( 'Envato', 'utestdrive' ),
-			),
+//			array(
+//				'id'    => 'settings_api',
+//				'title' => __( 'API', 'utestdrive' ),
+//			),
+//			array(
+//				'id'    => 'settings_woocommerce',
+//				'title' => __( 'WooCommerce', 'utestdrive' ),
+//			),
+//			array(
+//				'id'    => 'settings_envato',
+//				'title' => __( 'Envato', 'utestdrive' ),
+//			),
 //			array(
 //				'id'    => 'recipe_search_form',
 //				'title' => __( 'Search Form', 'utestdrive' ),
@@ -245,14 +245,18 @@ class Admin {
 		/*
 		* License Settings
 		*/
-		$options_fields['settings_license'] = apply_filters( 'utestdrive_filter_fields_settings_license', array(
+		$options_fields['create_site'] = apply_filters( 'utestdrive_filter_fields_settings_license', array(
 
 			array(
-				'id'    => $this->prefix . 'key_gen_heading',
-				'type'  => 'html',
-				'label' => '<h3>' . __( 'Key Gen Settings', 'utestdrive' ) . '</h3>',
+				'id'                => $this->prefix . 'test_site_expiry_in_hours',
+				'type'              => 'number',
+				'label'             => __( 'Test Site Expiry', 'utestdrive' ),
+				'desc'              => esc_html__( 'in hours', 'utestdrive' ),
+				'default'           => Globals::get_default_options( 'test_site_expiry_in_hours' ),
+				'options' => array(
+					'step' => 0.1
+				)
 			),
-
 
 			array(
 				'id'    => $this->prefix . 'key_length',
@@ -488,7 +492,7 @@ class Admin {
 
 		) );
 
-		$options_fields['settings_secret'] = apply_filters( 'utestdrive_filter_fields_settings_secret', array(
+		$options_fields['delete_site'] = apply_filters( 'utestdrive_filter_fields_settings_delete_site', array(
 
 //			array(
 //				'id'                => $this->prefix . 'public_key',
@@ -519,277 +523,6 @@ class Admin {
 
 
 		) );
-
-		$options_fields['settings_api'] = apply_filters( 'utestdrive_filter_fields_settings_api', array(
-
-			array(
-				'id'          => $this->prefix . 'api_require_public',
-				'label'       => esc_html__( 'Require Public Key', 'utestdrive' ),
-				'type'        => 'select',
-				'placeholder' => '--' . esc_html__( 'Please Select', 'utestdrive' ) . '--',
-				'desc'        => 'is Yes, public key shall be required for license info request.',
-				'options'     => array( 'yes' => 'Yes', 'no' => 'No' ),
-				'std'         => 'no'
-			),
-
-			array(
-				'id'    => $this->prefix . 'api_endpoint',
-				'label' => esc_html__( 'Api Endpoint', 'utestdrive' ),
-				'type'  => 'text',
-				'desc'  => sprintf( __( 'This will be the end point for API requests on this license server. default: %s', 'utestdrive' ), '<code>api/license-manager/v1</code>' ),
-				'std'   => 'api/license-manager/v1'
-			),
-
-		) );
-
-		$options_fields['settings_woocommerce'] = apply_filters( 'utestdrive_filter_fields_settings_woocommerce', array(
-
-			array(
-				'id'          => $this->prefix . 'woocommerce_active',
-				'label'       => esc_html__( 'Activate WooCommerce Integration', 'utestdrive' ),
-				'type'        => 'checkbox',
-				'placeholder' => '--' . esc_html__( 'Please Select', 'utestdrive' ) . '--',
-//				'options'     => array( 'yes' => 'Yes', 'no' => 'No' ),
-//				'std'         => 'no'
-			),
-
-		) );
-
-
-//		$options_fields['settings_envato'] = apply_filters( 'utestdrive_filter_fields_settings_envato', array(
-//
-//			array(
-//				'id'          => $this->prefix . 'color_accent',
-//				'type'        => 'color',
-//				'label'       => __( 'Accent Color', 'utestdrive' ),
-//				'description' => __( 'This will the theme color for the recipe', 'utestdrive' ),
-//				'default'     => '#71A866',
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'color_secondary',
-//				'type'        => 'color',
-//				'label'       => __( 'Secondary Color', 'utestdrive' ),
-//				'description' => __( 'This will be the color for secondary elements (usually in contrast of accent)', 'utestdrive' ),
-//				'default'     => '#e8f1e6',
-//				'rgba'        => true,
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'color_icon',
-//				'type'              => 'color',
-//				'label'             => __( 'Icon Color', 'utestdrive' ),
-//				'label_description' => __( 'This will be the color for icons', 'utestdrive' ),
-//				'default'           => '#71A866',
-//				'rgba'              => true,
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'color_border',
-//				'type'              => 'color',
-//				'label'             => __( 'Border Color', 'utestdrive' ),
-//				'label_description' => __( 'This will be the color for borders in elements', 'utestdrive' ),
-//				'default'           => '#e5e5e5',
-//				'rgba'              => true,
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'recipe_style',
-//				'type'    => 'select',
-//				'label'   => __( 'Recipe Style', 'utestdrive' ),
-//				'options' => apply_filters( 'utestdrive_filter_options_fields_array_single_style', array(
-//					'style1' => sprintf( __( 'Style %s', 'utestdrive' ), 1 )
-//				) ),
-//				'radio'   => true,
-//				'default' => 'style1',
-//				'desc'    => __( 'More Styles in Premium Version', 'utestdrive' ),
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'enable_wysiwyg_editor',
-//				'type'    => 'select',
-//				'label'   => __( 'Enable WYSIWYG Editor?', 'utestdrive' ),
-//				'options' => array( 'yes' => 'Yes', 'no' => 'No' ),
-//				'radio'   => true,
-//				'default' => 'no',
-//				'desc'    => __( 'This will only be available for Short Description and Additional Notes', 'utestdrive' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_nutrition',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Nutrition? (Global)', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show Nutrition info in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_icons',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Icons?', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show icons in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_key_point_label',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Labels for Key Points?', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show labels for key points in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'ingredients_editor',
-//				'type'    => 'select',
-//				'label'   => __( 'Ingredients Editor', 'utestdrive' ),
-//				'desc'    => __( 'More Styles in Premium Version', 'utestdrive' ),
-//				'default' => 'textarea',
-//				'options' => apply_filters( 'utestdrive_filter_options_field_ingredients_editor', array(
-//					'textarea' => __( 'Simple Textarea', 'utestdrive' )
-//				) )
-//
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'ingredient_side',
-//				'type'              => 'select',
-//				'label'             => __( 'Ingredients by the Side', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show ingredients by the side?', 'utestdrive' ),
-//				'default'           => 'no',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'nutrition_side',
-//				'type'              => 'select',
-//				'label'             => __( 'Nutrition by the Side', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show nutrition by the side?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_featured_image',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Featured Image?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_featured_image' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_recipe_title',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Recipe Title?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_recipe_title' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_recipe_publish_info',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Recipe Publish info?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_recipe_publish_info' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_share_buttons',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Share Buttons?', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show share buttons on recipe page?', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_share_buttons' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_author',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Author', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show author name on recipe page?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_published_date',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Published Date', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show published date on recipe page?', 'utestdrive' ),
-//				'default'           => 'no',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'featured_image_height',
-//				'type'        => 'text',
-//				'label'       => __( 'Featured image height', 'utestdrive' ),
-////					'after'       => __("You will need to re-generate thumbnails after changing this value for existing recipes", "utestdrive"),
-//				'description' => __( 'Maximum height of the recipe image', 'utestdrive' ),
-//				'default'     => '576',
-//				'sanitize'    => 'utestdrive_sanitize_absint',
-//
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'recipe_default_img_url',
-//				'type'        => 'media',
-//				'label'       => __( 'Recipe default image', 'utestdrive' ),
-//				'description' => __( 'Paste the full url to the image you want to use', 'utestdrive' ),
-//				'width'       => 768,
-//				'height'      => 768,
-//				'max_width'   => 768
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'layout_max_width',
-//				'type'        => 'number',
-//				'label'       => __( 'Layout Max Width', 'utestdrive' ),
-////					'after'       => __("You will need to re-generate thumbnails after changing this value for existing recipes", "utestdrive"),
-//				'description' => __( 'in pixels', 'utestdrive' ),
-//				'default'     => '1048',
-//				'sanitize'    => 'utestdrive_sanitize_absint',
-//
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'recipe_layout',
-//				'type'    => 'select',
-//				'label'   => __( 'Recipe Layout', 'utestdrive' ),
-//				'options' => array(
-//					'full'  => __( 'Full', 'utestdrive' ),
-//					'left'  => __( 'Left', 'utestdrive' ),
-//					'right' => __( 'Right', 'utestdrive' ),
-//				),
-//				'radio'   => true,
-//				'default' => 'full',
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'recipe_slug',
-//				'type'        => 'text',
-//				'label'       => __( 'Recipe Slug', 'utestdrive' ),
-//				'desc'        => sprintf( __( "You will need to re-save %spermalinks%s after changing this value", "utestdrive" ), '<a href=' . get_admin_url() . "options-permalink.php" . ' target="_blank">', '</a>' ),
-//				'class'       => 'text-class',
-//				'description' => __( 'the term that appears in url', 'utestdrive' ),
-//				'default'     => 'recipe',
-//				'attributes'  => array(
-//					'rows' => 10,
-//					'cols' => 5,
-//				),
-//				'help'        => 'only use small letters and underscores or dashes',
-//				'sanitize'    => 'sanitize_key',
-//
-//			),
-//
-//
-//		) );
 
 
 		return apply_filters( 'utestdrive_filter_options_fields_array', $options_fields );

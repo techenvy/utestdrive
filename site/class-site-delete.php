@@ -58,8 +58,8 @@ class Site_Delete {
 	 */
 	public function hook_schedule_cron() {
 
-		if ( ! wp_next_scheduled( 'utestdrive_auto_delete_test_drive_blog' ) ) {
-			wp_schedule_event( time(), 'wp_astra_theme_db_migration_cron_interval', 'utestdrive_auto_delete_test_drive_blog' );
+		if ( ! wp_next_scheduled( 'utestdrive_cron_auto_delete_test_drive_blog' ) ) {
+			wp_schedule_event( time(), 'hourly', 'utestdrive_cron_auto_delete_test_drive_blog' );
 		}
 
 	}
@@ -84,6 +84,13 @@ class Site_Delete {
 			$blogs = get_blogs_of_user( $user_id );
 			if ( ! empty( $blogs ) ) {
 				foreach ( $blogs as $blog ) {
+					// Delete WooCommerce data left behind
+					if ( function_exists( 'woo_uninstall' ) ) {
+						switch_to_blog( $blog->userblog_id );
+						woo_uninstall();
+						restore_current_blog();
+					}
+					// Delete Blog
 					wpmu_delete_blog( $blog->userblog_id, true );
 				}
 			}

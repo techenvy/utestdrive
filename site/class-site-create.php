@@ -63,6 +63,7 @@ class Site_Create {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->prefix      = Globals::get_meta_prefix();
+
 	}
 
 	/**
@@ -95,13 +96,6 @@ class Site_Create {
 			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'invalid_email' ) ), $redirect );
 			wp_safe_redirect( $redirect );
 			exit;
-		}
-
-		if ( empty( $this->user_name ) || empty( $this->user_email ) ) {
-			$redirect = add_query_arg( 'message', urlencode( 'Email is not validated.' . $this->user_email ), $redirect );
-			wp_safe_redirect( $redirect );
-			exit;
-
 		}
 
 		$this->user_id = $this->create_user();
@@ -247,8 +241,7 @@ class Site_Create {
 	 *
 	 */
 	public function get_expiry_in_hours() {
-
-		return 24;
+		return Globals::get_options_value( 'test_site_expiry_in_hours' );
 	}
 
 	/**
@@ -263,23 +256,22 @@ class Site_Create {
 
 		global $current_site;
 
-		$site_meta = array(
-			$this->prefix . 'site_meta_1' => time()
-
-		);
+		$site_meta = $this->get_new_site_options();
 
 		$blog_id = wpmu_create_blog(
 			$site_data['domain'],
 			$site_data['path'],
 			$site_data['title'],
-			$this->user_id, $site_meta, $current_site->id
+			$this->user_id,
+			$site_meta,
+			$current_site->id
 		);
 
 		if ( is_wp_error( $blog_id ) ) {
 			return false;
 		}
 
-		if ( ! is_super_admin( $this->user_id ) && get_user_option( 'primary_blog', $this->user_id ) == $current_site->blog_id ) {
+		if ( ! is_super_admin( $this->user_id ) && get_user_option( 'primary_blog', $this->user_id ) == $current_site->id ) {
 			update_user_option( $this->user_id, 'primary_blog', $blog_id, true );
 		}
 
@@ -312,6 +304,19 @@ class Site_Create {
 			'title'  => $this->user_name,
 			'email'  => $this->user_email
 		);
+	}
+
+	/**
+	 *
+	 */
+	public function get_new_site_options() {
+
+		return apply_filters( 'utestdrive_new_site_options_list', array(
+			'utestdrive_create_time'          => time(),
+			'utestdrive_schedule_delete_time' => time() + ( $this->get_expiry_in_hours() * HOUR_IN_SECONDS ),
+			'utestdrive_test_drive_site'      => 1,
+		) );
+
 	}
 
 

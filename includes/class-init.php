@@ -259,7 +259,7 @@ class Init {
 		$this->loader->add_action( 'wp', $site_delete, 'hook_schedule_cron' );
 
 		$this->loader->add_action(
-			'utestdrive_auto_delete_test_drive_blog',
+			'utestdrive_cron_auto_delete_test_drive_blog',
 			$site_delete,
 			'cron_action_auto_delete_test_drive_blog'
 		);

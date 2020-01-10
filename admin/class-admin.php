@@ -248,11 +248,11 @@ class Admin {
 		$options_fields['create_site'] = apply_filters( 'utestdrive_filter_fields_settings_license', array(
 
 			array(
-				'id'                => $this->prefix . 'test_site_expiry_in_hours',
-				'type'              => 'number',
-				'label'             => __( 'Test Site Expiry', 'utestdrive' ),
-				'desc'              => esc_html__( 'in hours', 'utestdrive' ),
-				'default'           => Globals::get_default_options( 'test_site_expiry_in_hours' ),
+				'id'      => $this->prefix . 'test_site_expiry_in_hours',
+				'type'    => 'number',
+				'label'   => __( 'Test Site Expiry', 'utestdrive' ),
+				'desc'    => esc_html__( 'in hours', 'utestdrive' ),
+				'default' => Globals::get_default_options( 'test_site_expiry_in_hours' ),
 				'options' => array(
 					'step' => 0.1
 				)
@@ -494,36 +494,19 @@ class Admin {
 
 		$options_fields['delete_site'] = apply_filters( 'utestdrive_filter_fields_settings_delete_site', array(
 
-//			array(
-//				'id'                => $this->prefix . 'public_key',
-//				'label'             => esc_html__( 'Public Key', 'utestdrive' ),
-//				'type'              => 'text',
-//				'label_description' => esc_html__( 'Unique id for your license', 'utestdrive' ),
-//				'attributes'        => array(
-//					'readonly' => true,
-//				),
-//				'class'             => 'utestdrive_key_field',
-//				'desc'              => $this->get_markup_generate_license_button(),
-//				'size'              => 'large'
-//			),
-//
-//
-//			array(
-//				'id'                => $this->prefix . 'private_key',
-//				'label'             => esc_html__( 'Private Key', 'utestdrive' ),
-//				'type'              => 'text',
-//				'label_description' => esc_html__( 'Unique id for your license', 'utestdrive' ),
-//				'attributes'        => array(
-//					'readonly' => true,
-//				),
-//				'class'             => 'utestdrive_key_field',
-//				'desc'              => $this->get_markup_generate_license_button(),
-//				'size'              => 'large'
-//			),
-
+			array(
+				'id'      => $this->prefix . 'is_delete_orphan_users',
+				'type'    => 'select',
+				'label'   => esc_html__( 'Delete Orphan Users?', 'utestdrive' ),
+				'desc'    => __( 'Delete all users who has no sites or content. These are typically created when test drive sites have created some users', 'utestdrive' ),
+				'options' => array(
+					'yes' => esc_html__( 'Yes', 'utestdrive' ),
+					'no'  => esc_html__( 'No', 'utestdrive' )
+				),
+				'default' => Globals::get_options_value( 'is_delete_orphan_users' )
+			),
 
 		) );
-
 
 		return apply_filters( 'utestdrive_filter_options_fields_array', $options_fields );
 	}

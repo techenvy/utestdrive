@@ -2,9 +2,6 @@
 
 namespace Utestdrive;
 
-// if class already defined, bail out
-use function Uschema\var_dump_pretty;
-
 if ( class_exists( 'Utestdrive\Site_Delete' ) ) {
 	return;
 }
@@ -66,11 +63,22 @@ class Site_Delete {
 
 	/**
 	 * Method to run on cron schedule
+	 *
+	 * @hooked utestdrive_cron_auto_delete_test_drive_blog
 	 */
 	public function cron_action_auto_delete_test_drive_blog() {
 
-		$user_ids_to_delete = $this->get_user_ids_to_delete();
+		$this->delete_users_and_blog_with_schedule_expiry();
+		$this->delete_orphan_users();
 
+	}
+
+	/**
+	 *
+	 */
+	public function delete_users_and_blog_with_schedule_expiry() {
+
+		$user_ids_to_delete = $this->get_user_ids_to_delete();
 
 		if ( empty( $user_ids_to_delete ) ) {
 			return null;
@@ -96,8 +104,6 @@ class Site_Delete {
 			}
 			wpmu_delete_user( $user_id );
 		}
-
-		return null;
 
 	}
 
@@ -134,6 +140,40 @@ class Site_Delete {
 		unset( $users_to_check );
 
 		return array_filter( $user_ids_to_delete );
+
+	}
+
+	/**
+	 * It will delete all users who has no sites or content
+	 */
+	public function delete_orphan_users() {
+
+		if ( 'yes' !== Globals::get_options_value( 'is_delete_orphan_users' ) ) {
+			return null;
+		}
+
+		require_once( ABSPATH . 'wp-admin/includes/user.php' );
+		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+
+		$users_to_check = get_users( array(
+			'blog_id'    => 0,
+			'meta_query' => array(
+				array(
+					'key'     => 'primary_blog',
+					'value'   => false,
+					'compare' => '=='
+				)
+			),
+			'fields'     => array( 'ID' ),
+		) );
+
+		foreach ( $users_to_check as $user ) {
+			if ( empty( get_blogs_of_user( $user->ID ) ) ) {
+				wpmu_delete_user( $user->ID );
+			}
+		}
+
+		unset( $users_to_check );
 
 	}
 

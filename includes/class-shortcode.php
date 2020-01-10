@@ -16,9 +16,9 @@ if ( class_exists( 'Utestdrive\Shortcode' ) ) {
 /**
  * This class will create meta boxes for Taxonomies
  *
- * @package    Uschema
- * @subpackage Uschema/includes
- * @author     Rao < support@uschema.io>
+ * @package    Utestdrive
+ * @subpackage Utestdrive/includes
+ * @author     Rao < support@utestdrive.io>
  */
 class Shortcode {
 	/**

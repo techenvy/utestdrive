@@ -128,7 +128,8 @@ class Globals {
 	public static function get_default_options_array() {
 
 		$default_options = array(
-			'test_site_expiry_in_hours' => 48
+			'test_site_expiry_in_hours' => 48,
+			'is_delete_orphan_users'    => 'no',
 		);
 
 		$default_options = apply_filters( 'utestdrive_admin_settings_default', $default_options );

@@ -62,6 +62,14 @@ class Shortcode {
 	 * @hooked utd_form
 	 */
 	public function hook_display_form( $atts = [], $content = null, $tag = '' ) {
+
+
+		if ( ! is_main_site( get_current_blog_id() ) ) {
+			return sprintf(
+				'<div class="utd-response-cont"><p class="error">%s</p></div>',
+				esc_html__( 'This shortcode is intended for main site only.', 'utestdrive' )
+			);
+		}
 		// normalize attribute keys, lowercase
 		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 

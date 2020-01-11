@@ -140,18 +140,32 @@ class Admin {
 
 		if ( 'user_expiry' === $column_name ) {
 			$user_expiry = get_user_meta( $user_id, 'utestdrive_schedule_delete_time', true );
-			if ( empty( $user_expiry ) || is_super_admin( $user_id ) ) {
-				$value = esc_html__( 'Never Expire', 'utestdrive' );
+			if ( is_super_admin( $user_id ) ) {
+				$user_expiry = '';
+			}
+			$value = $this->get_expiry_time_text( $user_expiry );
+		}
+
+		return $value;
+	}
+
+	/**
+	 *
+	 */
+	public function get_expiry_time_text( $expiry_timestamp ) {
+
+		if ( empty( $expiry_timestamp ) ) {
+			$value = esc_html__( 'Never Expire', 'utestdrive' );
+		} else {
+			if ( $expiry_timestamp > time() ) {
+				$value = human_time_diff( $expiry_timestamp );
 			} else {
-				if ( $user_expiry > time() ) {
-					$value = human_time_diff( $user_expiry );
-				} else {
-					$value = esc_html__( 'EXPIRED', 'utestdrive' ) . ' ' . human_time_diff( $user_expiry ) . ' ' . esc_html__( 'ago', 'utestdrive' );
-				}
+				$value = esc_html__( 'EXPIRED', 'utestdrive' ) . ' ' . human_time_diff( $expiry_timestamp ) . ' ' . esc_html__( 'ago', 'utestdrive' );
 			}
 		}
 
 		return $value;
+
 	}
 
 	/**
@@ -161,16 +175,7 @@ class Admin {
 
 		if ( 'site_expiry' === $column_name ) {
 			$site_expiry = get_blog_option( $blog_id, 'utestdrive_schedule_delete_time' );
-			if ( empty( $site_expiry ) ) {
-				$value = esc_html__( 'Never Expire', 'utestdrive' );
-			} else {
-				if ( $site_expiry > time() ) {
-					$value = human_time_diff( $site_expiry );
-				} else {
-					$value = esc_html__( 'EXPIRED', 'utestdrive' ) . ' ' . human_time_diff( $site_expiry ) . ' ' . esc_html__( 'ago', 'utestdrive' );
-				}
-			}
-			echo $value;
+			echo $this->get_expiry_time_text( $site_expiry );
 		}
 
 		return $column_name;

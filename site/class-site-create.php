@@ -144,7 +144,8 @@ class Site_Create {
 	 */
 	public function set_user_details() {
 
-		$this->user_email = isset( $_REQUEST['utd_email'] ) && ! empty( sanitize_email( $_REQUEST['utd_email'] ) )
+		$this->user_email = isset( $_REQUEST['utd_email'] )
+		                    && is_email( sanitize_email( $_REQUEST['utd_email'] ) )
 			? sanitize_email( $_REQUEST['utd_email'] )
 			: '';
 		$this->user_name  = isset( $_REQUEST['utd_user'] ) ? sanitize_text_field( $_REQUEST['utd_user'] ) : '';
@@ -197,8 +198,7 @@ class Site_Create {
 			'guest',
 			'guest123',
 			'test',
-			'test123
-			',
+			'test123',
 		) );
 	}
 

@@ -190,15 +190,14 @@ class Admin {
 	function get_settings_sections() {
 		$sections = array(
 			array(
-				'id'    => 'create_site',
-				'title' => __( 'Create Site', 'utestdrive' ),
-//				'desc'  => 'this is sweet'
+				'id'    => 'settings_test_site',
+				'title' => __( 'Test Site Settings', 'utestdrive' ),
 			),
 
-			array(
-				'id'    => 'delete_site',
-				'title' => __( 'Delete Site', 'utestdrive' ),
-			),
+//			array(
+//				'id'    => 'delete_site',
+//				'title' => __( 'Delete Site', 'utestdrive' ),
+//			),
 //			array(
 //				'id'    => 'settings_api',
 //				'title' => __( 'API', 'utestdrive' ),
@@ -245,13 +244,21 @@ class Admin {
 		/*
 		* License Settings
 		*/
-		$options_fields['create_site'] = apply_filters( 'utestdrive_filter_fields_settings_license', array(
+		$options_fields['settings_test_site'] = apply_filters( 'utestdrive_filter_fields_settings_test_site', array(
+
+			array(
+				'id'      => $this->prefix . 'test_site_user_role',
+				'type'    => 'user_roles',
+				'label'   => __( 'User role to assign for test site creator', 'utestdrive' ),
+				'desc'    => esc_html__( 'if a role other than "Administrator" is selected, new site will have administrator assigned from first available "Super Admin" users.', 'utestdrive' ),
+				'default' => Globals::get_default_options( 'test_site_user_role' ),
+			),
 
 			array(
 				'id'      => $this->prefix . 'test_site_expiry_in_hours',
 				'type'    => 'number',
-				'label'   => __( 'Test Site Expiry', 'utestdrive' ),
-				'desc'    => esc_html__( 'in hours', 'utestdrive' ),
+				'label'   => __( 'Expiry of Test Site', 'utestdrive' ),
+				'desc'    => esc_html__( '(in hours). After the lapse of this period, site shall auto deleted if option enabled.', 'utestdrive' ),
 				'default' => Globals::get_default_options( 'test_site_expiry_in_hours' ),
 				'options' => array(
 					'step' => 0.1
@@ -259,254 +266,23 @@ class Admin {
 			),
 
 			array(
-				'id'      => $this->prefix . 'test_site_user_role',
-				'type'    => 'user_roles',
-				'label'   => __( 'User role to assign', 'utestdrive' ),
-				'desc'    => esc_html__( 'if a role other than "Administrator" is selected, new site will have administrator assigned from first available "Super Admin" users.', 'utestdrive' ),
-				'default' => Globals::get_default_options( 'test_site_user_role' ),
-			),
-
-			array(
-				'id'    => $this->prefix . 'key_length',
-				'type'  => 'number',
-				'label' => __( 'Length of Key', 'utestdrive' ),
-				'desc'  => __( 'In normal cases, you dont want to change it. ', 'utestdrive' ) . " " . __( 'If filled, License key will be trimmed to length defined.', 'utestdrive' ) . " " . '0 => Unlimited',
-			),
-
-			array(
-				'id'                => $this->prefix . 'key_prefix',
-				'type'              => 'text',
-				'label'             => __( 'Key Prefix', 'utestdrive' ),
-				'radio'             => true,
-				'desc'              => __( 'I dont know why you would like to use it. If filled, License keys will be prefixed with this.', 'utestdrive' ),
-				'placeholder'       => __( 'In normal cases, you want to leave it empty.', 'utestdrive' ),
-				'sanitize_callback' => 'sanitize_key'
-			),
-
-
-			array(
-				'id'    => $this->prefix . 'defaults_heading',
-				'type'  => 'html',
-				'label' => '<h3>' . __( 'Set Defaults', 'utestdrive' ) . '</h3>',
-			),
-
-			array(
-				'id'    => $this->prefix . 'max_domains',
-				'type'  => 'number',
-				'label' => esc_html__( 'Maximum allowed domains', 'utestdrive' ),
-				'std'   => 1,
-			),
-
-
-			array(
-				'id'      => $this->prefix . 'auto_expire_cron',
+				'id'      => $this->prefix . 'auto_delete_test_site',
 				'type'    => 'select',
-				'label'   => esc_html__( 'Auto Expire Licenses', 'utestdrive' ),
-				'default' => 'yes',
-				'options' => array( 'yes' => 'Yes', 'no' => 'No' ),
-				'desc'    => __( 'If active, licenses will auto expire once everyday', 'utestdrive' ),
+				'label'   => esc_html__( 'Auto delete test site?', 'utestdrive' ),
+				'desc'    => __( 'If enabled, test site shall auto delete after the expiry time specified.', 'utestdrive' ),
+				'options' => array(
+					'yes' => esc_html__( 'Yes', 'utestdrive' ),
+					'no'  => esc_html__( 'No', 'utestdrive' )
+				),
+				'default' => Globals::get_options_value( 'auto_delete_test_site' )
 			),
 
-			array(
-				'id'    => $this->prefix . 'is_debug_on',
-				'type'  => 'checkbox',
-				'label' => esc_html__( 'Log Debug information?', 'utestdrive' ),
-				'desc'  => __( 'Check Error Logs for WordPress installation', 'utestdrive' )
-			),
-
-//			array(
-//				'id'      => $this->prefix . 'enable_wysiwyg_editor',
-//				'type'    => 'select',
-//				'label'   => __( 'Enable WYSIWYG Editor?', 'utestdrive' ),
-//				'options' => array( 'yes' => 'Yes', 'no' => 'No' ),
-//				'radio'   => true,
-//				'default' => 'no',
-//				'desc'    => __( 'This will only be available for Short Description and Additional Notes', 'utestdrive' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_nutrition',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Nutrition? (Global)', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show Nutrition info in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_icons',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Icons?', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show icons in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_key_point_label',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Labels for Key Points?', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show labels for key points in individual Recipe?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'ingredients_editor',
-//				'type'    => 'select',
-//				'label'   => __( 'Ingredients Editor', 'utestdrive' ),
-//				'desc'    => __( 'More Styles in Premium Version', 'utestdrive' ),
-//				'default' => 'textarea',
-//				'options' => apply_filters( 'utestdrive_filter_options_field_ingredients_editor', array(
-//					'textarea' => __( 'Simple Textarea', 'utestdrive' )
-//				) )
-//
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'ingredient_side',
-//				'type'              => 'select',
-//				'label'             => __( 'Ingredients by the Side', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show ingredients by the side?', 'utestdrive' ),
-//				'default'           => 'no',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'nutrition_side',
-//				'type'              => 'select',
-//				'label'             => __( 'Nutrition by the Side', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show nutrition by the side?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_featured_image',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Featured Image?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_featured_image' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_recipe_title',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Recipe Title?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_recipe_title' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_recipe_publish_info',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Recipe Publish info?', 'utestdrive' ),
-//				'label_description' => __( 'Some Themes add this to header, you may want to hide the one added by this plugin to avoid duplicated contents', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_recipe_publish_info' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_share_buttons',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Share Buttons?', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show share buttons on recipe page?', 'utestdrive' ),
-//				'default'           => $this->get_default_options( 'show_share_buttons' ),
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_author',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Author', 'utestdrive' ),
-//				'label_description' => __( 'Do you Want to show author name on recipe page?', 'utestdrive' ),
-//				'default'           => 'yes',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'                => $this->prefix . 'show_published_date',
-//				'type'              => 'select',
-//				'label'             => __( 'Show Published Date', 'utestdrive' ),
-//				'label_description' => __( 'Do you want to show published date on recipe page?', 'utestdrive' ),
-//				'default'           => 'no',
-//				'options'           => array( 'yes' => 'Yes', 'no' => 'No' ),
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'featured_image_height',
-//				'type'        => 'text',
-//				'label'       => __( 'Featured image height', 'utestdrive' ),
-////					'after'       => __("You will need to re-generate thumbnails after changing this value for existing recipes", "utestdrive"),
-//				'description' => __( 'Maximum height of the recipe image', 'utestdrive' ),
-//				'default'     => '576',
-//				'sanitize'    => 'utestdrive_sanitize_absint',
-//
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'recipe_default_img_url',
-//				'type'        => 'media',
-//				'label'       => __( 'Recipe default image', 'utestdrive' ),
-//				'description' => __( 'Paste the full url to the image you want to use', 'utestdrive' ),
-//				'width'       => 768,
-//				'height'      => 768,
-//				'max_width'   => 768
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'layout_max_width',
-//				'type'        => 'number',
-//				'label'       => __( 'Layout Max Width', 'utestdrive' ),
-////					'after'       => __("You will need to re-generate thumbnails after changing this value for existing recipes", "utestdrive"),
-//				'description' => __( 'in pixels', 'utestdrive' ),
-//				'default'     => '1048',
-//				'sanitize'    => 'utestdrive_sanitize_absint',
-//
-//			),
-//
-//			array(
-//				'id'      => $this->prefix . 'recipe_layout',
-//				'type'    => 'select',
-//				'label'   => __( 'Recipe Layout', 'utestdrive' ),
-//				'options' => array(
-//					'full'  => __( 'Full', 'utestdrive' ),
-//					'left'  => __( 'Left', 'utestdrive' ),
-//					'right' => __( 'Right', 'utestdrive' ),
-//				),
-//				'radio'   => true,
-//				'default' => 'full',
-//			),
-//
-//			array(
-//				'id'          => $this->prefix . 'recipe_slug',
-//				'type'        => 'text',
-//				'label'       => __( 'Recipe Slug', 'utestdrive' ),
-//				'desc'        => sprintf( __( "You will need to re-save %spermalinks%s after changing this value", "utestdrive" ), '<a href=' . get_admin_url() . "options-permalink.php" . ' target="_blank">', '</a>' ),
-//				'class'       => 'text-class',
-//				'description' => __( 'the term that appears in url', 'utestdrive' ),
-//				'default'     => 'recipe',
-//				'attributes'  => array(
-//					'rows' => 10,
-//					'cols' => 5,
-//				),
-//				'help'        => 'only use small letters and underscores or dashes',
-//				'sanitize'    => 'sanitize_key',
-//
-//			),
-
-
-		) );
-
-		$options_fields['delete_site'] = apply_filters( 'utestdrive_filter_fields_settings_delete_site', array(
 
 			array(
 				'id'      => $this->prefix . 'is_delete_orphan_users',
 				'type'    => 'select',
-				'label'   => esc_html__( 'Delete Orphan Users?', 'utestdrive' ),
-				'desc'    => __( 'Delete all users who has no sites or content. These are typically created when test drive sites have created some users', 'utestdrive' ),
+				'label'   => esc_html__( 'Delete orphan users when auto deleting test site?', 'utestdrive' ),
+				'desc'    => __( 'Delete all users who has no sites or content? These are typically created when test drive sites have created some users.', 'utestdrive' ),
 				'options' => array(
 					'yes' => esc_html__( 'Yes', 'utestdrive' ),
 					'no'  => esc_html__( 'No', 'utestdrive' )

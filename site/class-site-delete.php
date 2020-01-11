@@ -68,6 +68,12 @@ class Site_Delete {
 	 */
 	public function cron_action_auto_delete_test_drive_blog() {
 
+		$auto_delete_test_site = Globals::get_options_value( 'auto_delete_test_site' );
+
+		if ( 'yes' !== $auto_delete_test_site ) {
+			return null;
+		}
+
 		$this->delete_users_and_blog_with_schedule_expiry();
 		$this->delete_orphan_users();
 

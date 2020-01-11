@@ -104,11 +104,11 @@ class Shortcode {
             <form id="utd-reg-form" action="" method="POST">
                 <fieldset>
                     <input name="utd_user" id="utd-user" type="text" required="required"/>
-                    <label for="utd_user"><?php esc_html_e( 'Your Name', 'utestdrive' ); ?></label>
+                    <label for="utd-user"><?php esc_html_e( 'Your Name', 'utestdrive' ); ?></label>
                 </fieldset>
                 <fieldset>
                     <input name="utd_email" id="utd-email" type="email" required="required"/>
-                    <label for="utd_email"><?php esc_html_e( 'Your Email', 'utestdrive' ); ?></label>
+                    <label for="utd-email"><?php esc_html_e( 'Your Email', 'utestdrive' ); ?></label>
                 </fieldset>
                 <fieldset>
 					<?php wp_nonce_field( 'create_test_drive', '_nonce_test_drive' ); ?>

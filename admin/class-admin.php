@@ -110,38 +110,29 @@ class Admin {
 	 */
 	public function admin_menu_simple() {
 
-		$config_array = array(
+		$config_array = apply_filters( 'utestdrive_filter_config_settings', array(
 			'options_id' => $this->plugin_name . '-general',
 			'tabs'       => true,
 			'menu'       => $this->get_settings_menu(),
 			'links'      => $this->get_settings_links(),
 			'sections'   => $this->get_settings_sections(),
 			'fields'     => $this->get_settings_fields()
-		);
+		) );
 
 
 		$this->settings_api = new \Boo_Settings_Helper( $config_array );
 
-		//set menu settings
-//			$this->settings_api->set_menu( $this->get_settings_menu() );
-
 		//set the plugin action links
 		$this->settings_api->set_links( $this->get_settings_links() );
-
-		//set the settings
-//			$this->settings_api->set_sections( $this->get_settings_sections_new() );
-
-		// set fields
-//			$this->settings_api->set_fields( $this->get_settings_fields_new() );
 
 		//initialize settings
 		$this->settings_api->admin_init();
 
-//			add_options_page( 'WeDevs Settings API', 'WeDevs Settings API', 'delete_posts', 'settings_api_test', array($this, 'plugin_page') );
 	}
 
 	function get_settings_menu() {
-		$config_menu = array(
+
+		return apply_filters( 'utestdrive_filter_config_settings_menu', array(
 			//The name of this page
 			'page_title'      => __( 'uTestDrive', 'utestdrive' ),
 			// //The Menu Title in Wp Admin
@@ -152,22 +143,17 @@ class Admin {
 			'slug'            => 'utestdrive-settings',
 			// Required for submenu
 			'submenu'         => true,
-			// position
-//			'position'   => 10,
 			// For sub menu, we can define parent menu slug (Defaults to Options Page)
 			'parent'          => 'options-general.php',
 			// plugin_basename required to add plugin action links
 			'plugin_basename' => plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php' ),
-		);
+		) );
 
-		return $config_menu;
 	}
 
 	function get_settings_links() {
-		$links = array(
-
+		return apply_filters( 'utestdrive_filter_config_settings_links', array(
 			'plugin_basename' => plugin_basename( plugin_dir_path( __FILE__ ) . $this->plugin_name . '.php' ),
-
 			// array of Settings
 			'action_links'    => array(
 				array(
@@ -180,63 +166,18 @@ class Admin {
 					'type' => 'external',
 				),
 			),
+		) );
 
-
-		);
-
-		return $links;
 	}
 
 	function get_settings_sections() {
-		$sections = array(
+		return apply_filters( 'utestdrive_filter_config_settings_sections', array(
 			array(
-				'id'    => 'settings_test_site',
+				'id'    => 'test_site',
 				'title' => __( 'Test Site Settings', 'utestdrive' ),
 			),
+		) );
 
-//			array(
-//				'id'    => 'delete_site',
-//				'title' => __( 'Delete Site', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'settings_api',
-//				'title' => __( 'API', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'settings_woocommerce',
-//				'title' => __( 'WooCommerce', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'settings_envato',
-//				'title' => __( 'Envato', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'recipe_search_form',
-//				'title' => __( 'Search Form', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'recipe_widgets',
-//				'title' => __( 'Widget Settings', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'recipe_options_backup_restore',
-//				'title' => __( 'Settings Backup', 'utestdrive' ),
-//			),
-//			'recipe_plugin_activation' => array(
-//				'id'    => 'recipe_plugin_activation',
-//				'title' => __( 'Premium Plugin', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'special_section',
-//				'title' => __( 'Special', 'utestdrive' ),
-//			),
-//			array(
-//				'id'    => 'uninstall_section',
-//				'title' => __( 'Uninstall', 'utestdrive' ),
-//			)
-		);
-
-		return apply_filters( 'utestdrive_filter_options_sections_array', $sections );
 	}
 
 	public function get_settings_fields() {
@@ -244,7 +185,7 @@ class Admin {
 		/*
 		* License Settings
 		*/
-		$options_fields['settings_test_site'] = apply_filters( 'utestdrive_filter_fields_settings_test_site', array(
+		$options_fields['test_site'] = apply_filters( 'utestdrive_filter_config_settings_fields_test_site', array(
 
 			array(
 				'id'      => $this->prefix . 'test_site_user_role',
@@ -292,7 +233,7 @@ class Admin {
 
 		) );
 
-		return apply_filters( 'utestdrive_filter_options_fields_array', $options_fields );
+		return apply_filters( 'utestdrive_filter_config_settings_fields', $options_fields );
 	}
 
 

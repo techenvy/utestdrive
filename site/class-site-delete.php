@@ -153,7 +153,7 @@ class Site_Delete {
 		}
 
 		require_once( ABSPATH . 'wp-admin/includes/user.php' );
-		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+		require_once( ABSPATH . 'wp-admin/includes/admin.php' );
 
 		$users_to_check = get_users( array(
 			'blog_id'    => 0,

@@ -262,10 +262,8 @@ class Init {
 
 		$site_delete = new Site_Delete( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp', $site_delete, 'hook_schedule_cron' );
-
 		$this->loader->add_action(
-			$this->prefix . 'cron_auto_delete_test_drive_blog',
+			'utestdrive_cron_auto_delete_test_drive_blog',
 			$site_delete,
 			'cron_action_auto_delete_test_drive_blog'
 		);

@@ -50,18 +50,6 @@ class Site_Delete {
 	}
 
 	/**
-	 * Schedule cron job to auto delete site
-	 * @hooked init
-	 */
-	public function hook_schedule_cron() {
-
-		if ( ! wp_next_scheduled( $this->prefix . 'cron_auto_delete_test_drive_blog' ) ) {
-			wp_schedule_event( time(), 'hourly', $this->prefix . 'cron_auto_delete_test_drive_blog' );
-		}
-
-	}
-
-	/**
 	 * Method to run on cron schedule
 	 *
 	 * @hooked utestdrive_cron_auto_delete_test_drive_blog
@@ -69,7 +57,6 @@ class Site_Delete {
 	public function cron_action_auto_delete_test_drive_blog() {
 
 		$auto_delete_test_site = Globals::get_options_value( 'auto_delete_test_site' );
-
 		if ( 'yes' !== $auto_delete_test_site ) {
 			return null;
 		}

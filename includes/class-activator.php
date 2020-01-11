@@ -45,6 +45,19 @@ class Activator {
 			);
 		}
 
+		self::hook_cron_method();
+
+	}
+
+	/**
+	 * Schedule cron job to auto delete site
+	 */
+	public static function hook_cron_method() {
+
+		if ( ! wp_next_scheduled( 'utestdrive_cron_auto_delete_test_drive_blog' ) ) {
+			wp_schedule_event( time(), 'hourly', 'utestdrive_cron_auto_delete_test_drive_blog' );
+		}
+
 	}
 
 

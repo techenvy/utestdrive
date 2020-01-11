@@ -33,8 +33,8 @@ class Deactivator {
 	public static function deactivate() {
 
 		// Un-Schedule Cron
-		$timestamp = wp_next_scheduled( 'utestdrive_auto_delete_test_drive_blog' );
-		wp_unschedule_event( $timestamp, 'utestdrive_auto_delete_test_drive_blog' );
+		$timestamp = wp_next_scheduled( 'utestdrive_cron_auto_delete_test_drive_blog' );
+		wp_unschedule_event( $timestamp, 'utestdrive_cron_auto_delete_test_drive_blog' );
 
 
 	}

@@ -55,3 +55,16 @@ if ( ! function_exists( 'us_write_log' ) ) :
 	}
 
 endif;
+
+if ( ! function_exists( 'wp_roles_array' ) ) :
+
+	function wp_roles_array() {
+		$editable_roles = get_editable_roles();
+		foreach ( $editable_roles as $role => $details ) {
+			$roles[ esc_attr( $role ) ] = translate_user_role( $details['name'] );
+		}
+
+		return $roles;
+	}
+
+endif;

@@ -259,6 +259,14 @@ class Admin {
 			),
 
 			array(
+				'id'      => $this->prefix . 'test_site_user_role',
+				'type'    => 'user_roles',
+				'label'   => __( 'User role to assign', 'utestdrive' ),
+				'desc'    => esc_html__( 'if a role other than "Administrator" is selected, new site will have administrator assigned from first available "Super Admin" users.', 'utestdrive' ),
+				'default' => Globals::get_default_options( 'test_site_user_role' ),
+			),
+
+			array(
 				'id'    => $this->prefix . 'key_length',
 				'type'  => 'number',
 				'label' => __( 'Length of Key', 'utestdrive' ),

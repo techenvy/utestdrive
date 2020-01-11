@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/boospot/boo-settings-helper.git",
-                "reference": "e7d3fd45c1c2be4b18a7df94581b47aeae38ad72"
+                "reference": "c4788aae7f97c31c485186a42d9c9c23a0270025"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/boospot/boo-settings-helper/zipball/e7d3fd45c1c2be4b18a7df94581b47aeae38ad72",
-                "reference": "e7d3fd45c1c2be4b18a7df94581b47aeae38ad72",
+                "url": "https://api.github.com/repos/boospot/boo-settings-helper/zipball/c4788aae7f97c31c485186a42d9c9c23a0270025",
+                "reference": "c4788aae7f97c31c485186a42d9c9c23a0270025",
                 "shasum": ""
             },
             "type": "library",
@@ -48,7 +48,7 @@
                 "wordpress-plugin",
                 "wp-admin"
             ],
-            "time": "2019-08-21T10:07:30+00:00"
+            "time": "2020-01-11T12:59:37+00:00"
         }
     ],
     "packages-dev": [],

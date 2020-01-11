@@ -256,14 +256,30 @@ class Site_Create {
 
 		global $current_site;
 
-		$site_meta = $this->get_new_site_options();
+		$user_role = sanitize_key( Globals::get_options_value( 'test_site_user_role' ) );
+		/*
+		 * Make sure role exists, else assign 'administrator'
+		 */
+		$user_role = ( ! empty( get_role( $user_role ) ) ) ? $user_role : 'administrator';
+
+		$is_admin_role = ( 'administrator' === $user_role );
+
+		/*
+		 * if the required role is not admin, then get a user form super admin users to assign as admin
+		 */
+		if ( ! $is_admin_role ) {
+			require_once( ABSPATH . 'wp-includes/capabilities.php' );
+			$blog_admin_user_id = get_user_by( 'login', array_pop( get_super_admins() ) )->ID;
+		} else {
+			$blog_admin_user_id = $this->user_id;
+		}
 
 		$blog_id = wpmu_create_blog(
 			$site_data['domain'],
 			$site_data['path'],
 			$site_data['title'],
-			$this->user_id,
-			$site_meta,
+			$blog_admin_user_id,
+			$this->get_new_site_options(),
 			$current_site->id
 		);
 
@@ -271,8 +287,13 @@ class Site_Create {
 			return false;
 		}
 
-		if ( ! is_super_admin( $this->user_id ) && get_user_option( 'primary_blog', $this->user_id ) == $current_site->id ) {
-			update_user_option( $this->user_id, 'primary_blog', $blog_id, true );
+		if ( ! is_super_admin( $this->user_id ) ) {
+			if ( get_user_option( 'primary_blog', $this->user_id ) == $current_site->id ) {
+				update_user_option( $this->user_id, 'primary_blog', $blog_id, true );
+			} else {
+				add_user_to_blog( $blog_id, $this->user_id, $user_role );
+				update_user_option( $this->user_id, 'primary_blog', $blog_id, true );
+			}
 		}
 
 		wpmu_welcome_notification( $blog_id, $this->user_id, $this->user_password, $site_data['title'], array( 'public' => 1 ) );

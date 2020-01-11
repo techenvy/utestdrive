@@ -89,17 +89,17 @@ class Site_Delete {
 
 		foreach ( $user_ids_to_delete as $user_id ) {
 
-			$blogs = get_blogs_of_user( $user_id );
-			if ( ! empty( $blogs ) ) {
-				foreach ( $blogs as $blog ) {
+			$sites = get_blogs_of_user( $user_id );
+			if ( ! empty( $sites ) ) {
+				foreach ( $sites as $site ) {
 					// Delete WooCommerce data left behind
 					if ( function_exists( 'woo_uninstall' ) ) {
-						switch_to_blog( $blog->userblog_id );
+						switch_to_blog( $site->userblog_id );
 						woo_uninstall();
 						restore_current_blog();
 					}
 					// Delete Blog
-					wpmu_delete_blog( $blog->userblog_id, true );
+					wpmu_delete_blog( $site->userblog_id, true );
 				}
 			}
 			wpmu_delete_user( $user_id );

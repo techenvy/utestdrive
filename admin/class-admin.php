@@ -104,6 +104,78 @@ class Admin {
 
 	}
 
+	/**
+	 * @hooked wpmu_blogs_columns
+	 */
+	public function wpmu_blogs_columns( $columns ) {
+
+		$columns['site_expiry'] = esc_html__( 'Expiry', 'utestdrive' );
+
+		return $columns;
+
+	}
+
+	/**
+	 * @hooked wpmu_blogs_columns
+	 */
+	public function wpmu_users_columns( $columns ) {
+
+		$columns['user_expiry'] = esc_html__( 'Expiry', 'utestdrive' );
+
+		return $columns;
+
+	}
+
+	/**
+	 * Get Value of custom columns
+	 *
+	 * @param string $value Custom column output.
+	 * @param string $column_name The current column name.
+	 * @param int $user_id ID of the currently-listed user.
+	 *
+	 * @return int|string
+	 * @hooked manage_users_custom_column
+	 */
+	public function wpmu_users_columns_values( $value, $column_name, $user_id ) {
+
+		if ( 'user_expiry' === $column_name ) {
+			$user_expiry = get_user_meta( $user_id, 'utestdrive_schedule_delete_time', true );
+			if ( empty( $user_expiry ) || is_super_admin( $user_id ) ) {
+				$value = esc_html__( 'Never Expire', 'utestdrive' );
+			} else {
+				if ( $user_expiry > time() ) {
+					$value = human_time_diff( $user_expiry );
+				} else {
+					$value = esc_html__( 'EXPIRED', 'utestdrive' ) . ' ' . human_time_diff( $user_expiry ) . ' ' . esc_html__( 'ago', 'utestdrive' );
+				}
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * @hooked manage_sites_custom_column
+	 */
+	public function wpmu_blogs_columns_values( $column_name, $blog_id ) {
+
+		if ( 'site_expiry' === $column_name ) {
+			$site_expiry = get_blog_option( $blog_id, 'utestdrive_schedule_delete_time' );
+			if ( empty( $site_expiry ) ) {
+				$value = esc_html__( 'Never Expire', 'utestdrive' );
+			} else {
+				if ( $site_expiry > time() ) {
+					$value = human_time_diff( $site_expiry );
+				} else {
+					$value = esc_html__( 'EXPIRED', 'utestdrive' ) . ' ' . human_time_diff( $site_expiry ) . ' ' . esc_html__( 'ago', 'utestdrive' );
+				}
+			}
+			echo $value;
+		}
+
+		return $column_name;
+	}
+
 
 	/**
 	 *

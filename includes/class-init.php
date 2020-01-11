@@ -167,6 +167,20 @@ class Init {
 		 */
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_menu_simple', 99 );
 
+
+		/*
+		 * Add site columns
+		 */
+		$this->loader->add_filter( 'wpmu_blogs_columns', $plugin_admin, 'wpmu_blogs_columns', 99 );
+		$this->loader->add_filter( 'manage_sites_custom_column', $plugin_admin, 'wpmu_blogs_columns_values', 10, 2 );
+
+		/*
+		 * Add users columns
+		 */
+		$this->loader->add_filter( 'manage_users-network_columns', $plugin_admin, 'wpmu_users_columns', 99 );
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'wpmu_users_columns_values', 10, 3 );
+
+
 	}
 
 	/**

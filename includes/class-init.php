@@ -58,6 +58,9 @@ class Init {
 	 */
 	protected $version;
 
+
+	protected $prefix;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -93,6 +96,8 @@ class Init {
 
 
 		do_action( 'utestdrive_init_construct' );
+
+		$this->prefix = Globals::get_meta_prefix();
 
 	}
 
@@ -260,7 +265,7 @@ class Init {
 		$this->loader->add_action( 'wp', $site_delete, 'hook_schedule_cron' );
 
 		$this->loader->add_action(
-			'utestdrive_cron_auto_delete_test_drive_blog',
+			$this->prefix . 'cron_auto_delete_test_drive_blog',
 			$site_delete,
 			'cron_action_auto_delete_test_drive_blog'
 		);

@@ -138,8 +138,6 @@ class Site_Delete {
 	public function delete_sites_with_schedule_expiry() {
 
 
-		$users = $this->get_expired_test_drive_users();
-
 		if ( 'yes' !== Globals::get_options_value( 'auto_delete_test_site' ) ) {
 			return null;
 		}

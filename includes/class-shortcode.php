@@ -60,6 +60,12 @@ class Shortcode {
 
 	/**
 	 * @hooked utd_form
+	 *
+	 * @param array $atts
+	 * @param null $content
+	 * @param string $tag
+	 *
+	 * @return false|string
 	 */
 	public function hook_display_form( $atts = [], $content = null, $tag = '' ) {
 

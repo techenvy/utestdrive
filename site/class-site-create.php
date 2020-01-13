@@ -51,6 +51,15 @@ class Site_Create {
 	private $version;
 
 	/**
+	 * The prefix for this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $prefix The prefix for this plugin.
+	 */
+	private $prefix;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of the plugin.
@@ -82,7 +91,7 @@ class Site_Create {
 			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'invalid_nonce' ) ), $redirect );
 			wp_safe_redirect( $redirect );
 			exit;
-		};
+		}
 
 		$this->set_user_details();
 
@@ -123,7 +132,9 @@ class Site_Create {
 	}
 
 	/**
+	 * @param $code
 	 *
+	 * @return string
 	 */
 	public function get_error_message( $code ) {
 

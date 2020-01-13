@@ -1,6 +1,8 @@
 <?php
 
 namespace Utestdrive;
+use Boo_Settings_Helper;
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -60,6 +62,10 @@ class Admin {
 
 	/**
 	 * @hooked wpmu_blogs_columns
+	 *
+	 * @param $columns
+	 *
+	 * @return mixed
 	 */
 	public function wpmu_blogs_columns( $columns ) {
 
@@ -71,7 +77,9 @@ class Admin {
 
 	/**
 	 * @hooked wpmu_blogs_columns
-	 */
+	 * @param $columns
+	 * @return mixed
+*/
 	public function wpmu_users_columns( $columns ) {
 
 		$columns['user_expiry'] = esc_html__( 'Expiry', 'utestdrive' );
@@ -104,8 +112,9 @@ class Admin {
 	}
 
 	/**
-	 *
-	 */
+	 * @param $expiry_timestamp
+	 * @return string
+*/
 	public function get_expiry_time_text( $expiry_timestamp ) {
 
 		if ( empty( $expiry_timestamp ) ) {
@@ -124,7 +133,10 @@ class Admin {
 
 	/**
 	 * @hooked manage_sites_custom_column
-	 */
+	 * @param $column_name
+	 * @param $blog_id
+	 * @return mixed
+*/
 	public function wpmu_blogs_columns_values( $column_name, $blog_id ) {
 
 		if ( 'site_expiry' === $column_name ) {
@@ -152,7 +164,7 @@ class Admin {
 		) );
 
 
-		$this->settings_api = new \Boo_Settings_Helper( $config_array );
+		$this->settings_api = new Boo_Settings_Helper( $config_array );
 
 		//set the plugin action links
 		$this->settings_api->set_links( $this->get_settings_links() );

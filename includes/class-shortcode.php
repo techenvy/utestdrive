@@ -59,7 +59,7 @@ class Shortcode {
 	}
 
 	/**
-	 * @hooked utd_form
+	 * @hooked utd_reg_form
 	 *
 	 * @param array $atts
 	 * @param null $content

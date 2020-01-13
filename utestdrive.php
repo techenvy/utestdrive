@@ -49,7 +49,7 @@ define( 'UTESTDRIVE_PLUGIN_NAME', 'utestdrive' );
  * Start at version 1.0.0
  */
 /** @noinspection PhpUnused */
-define( 'UTESTDRIVE_PLUGIN_BASE_NAME', basename( __FILE__ ) );
+define( 'UTESTDRIVE_PLUGIN_BASE_NAME', plugin_basename( __FILE__ ) );
 
 
 /**

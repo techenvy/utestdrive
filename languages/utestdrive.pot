@@ -2,103 +2,155 @@
 msgid ""
 msgstr ""
 "Language: \n"
-"POT-Creation-Date: 2020-01-13 11:49+0000\n"
+"POT-Creation-Date: 2020-01-13 13:31+0000\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: admin/class-admin.php:72 admin/class-admin.php:85
+#: admin/class-admin.php:73 admin/class-admin.php:88
 msgid "Expiry"
 msgstr ""
 
-#: admin/class-admin.php:121
+#: admin/class-admin.php:125
 msgid "Never Expire"
 msgstr ""
 
-#: admin/class-admin.php:126
+#: admin/class-admin.php:130
 msgid "EXPIRED"
 msgstr ""
 
-#: admin/class-admin.php:126
+#: admin/class-admin.php:130
 msgid "ago"
 msgstr ""
 
 #. Name of the plugin
-#: admin/class-admin.php:181 admin/class-admin.php:183
+#: admin/class-admin.php:187 admin/class-admin.php:189
 msgid "uTestDrive"
 msgstr ""
 
-#: admin/class-admin.php:204
+#: admin/class-admin.php:210
 msgid "Configure"
 msgstr ""
 
-#: admin/class-admin.php:208
+#: admin/class-admin.php:214 admin/class-admin.php:321
 msgid "Github Repo"
 msgstr ""
 
-#: admin/class-admin.php:221
+#: admin/class-admin.php:227
 msgid "Test Site Settings"
 msgstr ""
 
-#: admin/class-admin.php:237
+#: admin/class-admin.php:231
+msgid "Help"
+msgstr ""
+
+#: admin/class-admin.php:235
+msgid "Contribute"
+msgstr ""
+
+#: admin/class-admin.php:252
 msgid "User role to assign for test site creator"
 msgstr ""
 
-#: admin/class-admin.php:238
+#: admin/class-admin.php:253
 msgid ""
 "if a role other than \"Administrator\" is selected, new site will have "
 "administrator assigned from first available \"Super Admin\" users."
 msgstr ""
 
-#: admin/class-admin.php:245
+#: admin/class-admin.php:260
 msgid "Test Drive Expiry"
 msgstr ""
 
-#: admin/class-admin.php:246
+#: admin/class-admin.php:261
 msgid ""
 "(in hours). After the lapse of this period, test drive user and test drive "
 "site shall auto deleted if option enabled."
 msgstr ""
 
-#: admin/class-admin.php:256
+#: admin/class-admin.php:271
 msgid "Auto delete test Site?"
 msgstr ""
 
-#: admin/class-admin.php:257 admin/class-admin.php:269
+#: admin/class-admin.php:272 admin/class-admin.php:284
 #, php-format
 msgid "If enabled, %s shall auto delete after the expiry time specified."
 msgstr ""
 
-#: admin/class-admin.php:257
+#: admin/class-admin.php:272
 msgid "test drive site"
 msgstr ""
 
-#: admin/class-admin.php:259 admin/class-admin.php:271
-#: admin/class-admin.php:284
+#: admin/class-admin.php:274 admin/class-admin.php:286
+#: admin/class-admin.php:299
 msgid "Yes"
 msgstr ""
 
-#: admin/class-admin.php:260 admin/class-admin.php:272
-#: admin/class-admin.php:285
+#: admin/class-admin.php:275 admin/class-admin.php:287
+#: admin/class-admin.php:300
 msgid "No"
 msgstr ""
 
-#: admin/class-admin.php:268
+#: admin/class-admin.php:283
 msgid "Auto delete test User?"
 msgstr ""
 
-#: admin/class-admin.php:269
+#: admin/class-admin.php:284
 msgid "test drive user"
 msgstr ""
 
-#: admin/class-admin.php:281
+#: admin/class-admin.php:296
 msgid "Delete orphan users after auto deleting test site?"
 msgstr ""
 
-#: admin/class-admin.php:282
+#: admin/class-admin.php:297
 msgid ""
 "Delete all users who has no sites or content? These are typically created "
 "when test drive sites have created some users."
+msgstr ""
+
+#: admin/class-admin.php:312
+msgid "Some Help Links"
+msgstr ""
+
+#: admin/class-admin.php:319
+msgid "Plugin Page"
+msgstr ""
+
+#: admin/class-admin.php:320
+msgid "FAQ"
+msgstr ""
+
+#: admin/class-admin.php:327
+msgid "Found a Bug?"
+msgstr ""
+
+#: admin/class-admin.php:333
+msgid "Open a Support Ticket"
+msgstr ""
+
+#: admin/class-admin.php:334
+msgid "Open an issue on Github Repo"
+msgstr ""
+
+#: admin/class-admin.php:345
+msgid "Want to Contribute?"
+msgstr ""
+
+#: admin/class-admin.php:353
+msgid "Contribute on Github Repo"
+msgstr ""
+
+#: admin/class-admin.php:354
+msgid "Buy Me a Coffee"
+msgstr ""
+
+#: admin/class-admin.php:355
+msgid "Translate Plugin"
+msgstr ""
+
+#: admin/class-admin.php:356
+msgid "Review Plugin"
 msgstr ""
 
 #: includes/class-activator.php:42

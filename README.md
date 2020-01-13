@@ -1,6 +1,6 @@
 === uTestDrive ===
 
-|                   |                          |   
+| Key | Value|   
 |-------------------|-------------------------------|
 |Contributors       |boospot, raoabid491            |
 |Tags               |multisite, test drive, test drive plugin, network, plugin author, theme author, demo setup|

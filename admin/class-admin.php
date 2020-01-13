@@ -190,6 +190,7 @@ class Admin {
 		$config_array = apply_filters( 'utestdrive_filter_config_settings', array(
 			'options_id' => $this->plugin_name . '-general',
 			'tabs'       => true,
+			'prefix'     => $this->prefix,
 			'menu'       => $this->get_settings_menu(),
 			'links'      => $this->get_settings_links(),
 			'sections'   => $this->get_settings_sections(),
@@ -265,7 +266,7 @@ class Admin {
 		$options_fields['test_site'] = apply_filters( 'utestdrive_filter_config_settings_fields_test_site', array(
 
 			array(
-				'id'      => $this->prefix . 'test_site_user_role',
+				'id'      => 'test_site_user_role',
 				'type'    => 'user_roles',
 				'label'   => __( 'User role to assign for test site creator', 'utestdrive' ),
 				'desc'    => esc_html__( 'if a role other than "Administrator" is selected, new site will have administrator assigned from first available "Super Admin" users.', 'utestdrive' ),
@@ -273,21 +274,21 @@ class Admin {
 			),
 
 			array(
-				'id'      => $this->prefix . 'test_site_expiry_in_hours',
+				'id'      => 'test_drive_expiry_in_hours',
 				'type'    => 'number',
-				'label'   => __( 'Expiry of Test Site', 'utestdrive' ),
-				'desc'    => esc_html__( '(in hours). After the lapse of this period, site shall auto deleted if option enabled.', 'utestdrive' ),
-				'default' => Globals::get_default_options( 'test_site_expiry_in_hours' ),
+				'label'   => __( 'Test Drive Expiry', 'utestdrive' ),
+				'desc'    => esc_html__( '(in hours). After the lapse of this period, test drive user and test drive site shall auto deleted if option enabled.', 'utestdrive' ),
+				'default' => Globals::get_default_options( 'test_drive_expiry_in_hours' ),
 				'options' => array(
 					'step' => 0.1
 				)
 			),
 
 			array(
-				'id'      => $this->prefix . 'auto_delete_test_site',
+				'id'      => 'auto_delete_test_site',
 				'type'    => 'select',
-				'label'   => esc_html__( 'Auto delete test site?', 'utestdrive' ),
-				'desc'    => __( 'If enabled, test site shall auto delete after the expiry time specified.', 'utestdrive' ),
+				'label'   => esc_html__( 'Auto delete test Site?', 'utestdrive' ),
+				'desc'    => sprintf( esc_html__( 'If enabled, %s shall auto delete after the expiry time specified.', 'utestdrive' ), esc_html__( 'test drive site', 'utestdrive' ) ),
 				'options' => array(
 					'yes' => esc_html__( 'Yes', 'utestdrive' ),
 					'no'  => esc_html__( 'No', 'utestdrive' )
@@ -295,11 +296,23 @@ class Admin {
 				'default' => Globals::get_options_value( 'auto_delete_test_site' )
 			),
 
+			array(
+				'id'      => 'auto_delete_test_user',
+				'type'    => 'select',
+				'label'   => esc_html__( 'Auto delete test User?', 'utestdrive' ),
+				'desc'    => sprintf( esc_html__( 'If enabled, %s shall auto delete after the expiry time specified.', 'utestdrive' ), esc_html__( 'test drive user', 'utestdrive' ) ),
+				'options' => array(
+					'yes' => esc_html__( 'Yes', 'utestdrive' ),
+					'no'  => esc_html__( 'No', 'utestdrive' )
+				),
+				'default' => Globals::get_options_value( 'auto_delete_test_user' )
+			),
+
 
 			array(
-				'id'      => $this->prefix . 'is_delete_orphan_users',
+				'id'      => 'is_delete_orphan_users',
 				'type'    => 'select',
-				'label'   => esc_html__( 'Delete orphan users when auto deleting test site?', 'utestdrive' ),
+				'label'   => esc_html__( 'Delete orphan users after auto deleting test site?', 'utestdrive' ),
 				'desc'    => __( 'Delete all users who has no sites or content? These are typically created when test drive sites have created some users.', 'utestdrive' ),
 				'options' => array(
 					'yes' => esc_html__( 'Yes', 'utestdrive' ),

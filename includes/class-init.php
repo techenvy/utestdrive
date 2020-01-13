@@ -282,6 +282,19 @@ class Init {
 			'cron_action_auto_delete_test_drive_blog'
 		);
 
+		$this->loader->add_action(
+			'wpmu_delete_user',
+			$site_delete,
+			'hook_wpmu_delete_user'
+		);
+
+
+		$this->loader->add_action(
+			'wp',
+			$site_delete,
+			'delete_sites_with_schedule_expiry'
+		);
+
 	}
 
 	/**

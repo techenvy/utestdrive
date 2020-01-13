@@ -241,7 +241,7 @@ class Site_Create {
 	 *
 	 */
 	public function get_expiry_in_hours() {
-		return Globals::get_options_value( 'test_site_expiry_in_hours' );
+		return Globals::get_options_value( 'test_drive_expiry_in_hours' );
 	}
 
 	/**

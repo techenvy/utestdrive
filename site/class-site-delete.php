@@ -35,6 +35,15 @@ class Site_Delete {
 	private $version;
 
 	/**
+	 * The prefix for this plugin
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string $prefix The prefix for this plugin.
+	 */
+	private $prefix;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param string $plugin_name The name of the plugin.
@@ -56,12 +65,8 @@ class Site_Delete {
 	 */
 	public function cron_action_auto_delete_test_drive_blog() {
 
-		$auto_delete_test_site = Globals::get_options_value( 'auto_delete_test_site' );
-		if ( 'yes' !== $auto_delete_test_site ) {
-			return null;
-		}
-
-		$this->delete_users_and_blog_with_schedule_expiry();
+		$this->delete_users_with_schedule_expiry();
+		$this->delete_sites_with_schedule_expiry();
 		$this->delete_orphan_users();
 
 	}
@@ -69,32 +74,23 @@ class Site_Delete {
 	/**
 	 *
 	 */
-	public function delete_users_and_blog_with_schedule_expiry() {
+	public function delete_users_with_schedule_expiry() {
 
-		$user_ids_to_delete = $this->get_user_ids_to_delete();
+		if ( 'yes' !== Globals::get_options_value( 'auto_delete_test_user' ) ) {
+			return null;
+		}
+
+		$user_ids_to_delete = $this->get_expired_test_drive_users();
 
 		if ( empty( $user_ids_to_delete ) ) {
 			return null;
 		}
 
-		require_once( ABSPATH . 'wp-admin/includes/admin.php' );
-		require_once( ABSPATH . 'wp-admin/includes/user.php' );
+		if ( ! function_exists( 'wpmu_delete_user' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+		}
 
 		foreach ( $user_ids_to_delete as $user_id ) {
-
-			$sites = get_blogs_of_user( $user_id );
-			if ( ! empty( $sites ) ) {
-				foreach ( $sites as $site ) {
-					// Delete WooCommerce data left behind
-					if ( function_exists( 'woo_uninstall' ) ) {
-						switch_to_blog( $site->userblog_id );
-						woo_uninstall();
-						restore_current_blog();
-					}
-					// Delete Blog
-					wpmu_delete_blog( $site->userblog_id, true );
-				}
-			}
 			wpmu_delete_user( $user_id );
 		}
 
@@ -103,7 +99,7 @@ class Site_Delete {
 	/**
 	 *
 	 */
-	public function get_user_ids_to_delete() {
+	public function get_expired_test_drive_users() {
 
 		$user_ids_to_delete = array();
 
@@ -137,11 +133,107 @@ class Site_Delete {
 	}
 
 	/**
+	 *
+	 */
+	public function delete_sites_with_schedule_expiry() {
+
+
+		$users = $this->get_expired_test_drive_users();
+
+		if ( 'yes' !== Globals::get_options_value( 'auto_delete_test_site' ) ) {
+			return null;
+		}
+
+		$sites = $this->get_expired_test_drive_sites();
+
+		$this->delete_sites( $sites );
+
+	}
+
+	/**
+	 * Get Expired Test Drive Sites
+	 */
+	public function get_expired_test_drive_sites() {
+
+		return $this->get_test_drive_sites( true );
+
+	}
+
+	/**
+	 * get test drive sites
+	 *
+	 * @param bool $only_expired
+	 *
+	 * @return array
+	 */
+	public function get_test_drive_sites( $only_expired = false ) {
+
+		$expired_sites = array();
+		$all_sites     = get_sites();
+
+		foreach ( $all_sites as $index => $site ) {
+
+			if ( ! get_blog_option( $site->blog_id, $this->prefix . 'test_drive_site' ) ) {
+				continue;
+			}
+
+			if ( ! $only_expired ) {
+				$expired_sites[] = $site;
+			} else {
+				$schedule_delete_time = get_blog_option( $site->blog_id, $this->prefix . 'schedule_delete_time' );
+
+				if ( $schedule_delete_time && $schedule_delete_time <= time() ) {
+					$expired_sites[] = $site;
+				}
+			}
+
+
+		}
+
+		unset( $all_sites );
+
+		return $expired_sites;
+
+	}
+
+	/**
+	 * @param array $sites
+	 */
+	public function delete_sites( $sites ) {
+
+		if ( ! function_exists( 'wpmu_delete_blog' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+		}
+
+		foreach ( $sites as $site ) {
+
+			/* Get site_id in both cases:
+			 * 1. when $sites are provided using get_blogs_of_user()
+			 * 2. when $sites are provided using get_sites()
+			 */
+
+			$site_id = ( isset( $site->userblog_id ) ) ? $site->userblog_id : $site->blog_id;
+			// Delete WooCommerce data left behind
+			if ( function_exists( 'woo_uninstall' ) ) {
+				switch_to_blog( $site_id );
+				woo_uninstall();
+				restore_current_blog();
+			}
+			// Delete Blog
+			wpmu_delete_blog( $site_id, true );
+		}
+
+	}
+
+	/**
 	 * It will delete all users who has no sites or content
 	 */
 	public function delete_orphan_users() {
 
-		if ( 'yes' !== Globals::get_options_value( 'is_delete_orphan_users' ) ) {
+		if (
+			'yes' !== Globals::get_options_value( 'auto_delete_test_site' )
+			|| 'yes' !== Globals::get_options_value( 'is_delete_orphan_users' )
+		) {
 			return null;
 		}
 
@@ -161,7 +253,7 @@ class Site_Delete {
 		) );
 
 		foreach ( $users_to_check as $user ) {
-			if ( empty( get_blogs_of_user( $user->ID ) ) ) {
+			if ( empty( $this->get_test_drive_sites_of_user( $user->ID ) ) ) {
 				wpmu_delete_user( $user->ID );
 			}
 		}
@@ -170,5 +262,29 @@ class Site_Delete {
 
 	}
 
+	/**
+	 * Get a list of test drive sites for a  given $user_id
+	 *
+	 * @param $user_id
+	 *
+	 * @return array
+	 */
+	public function get_test_drive_sites_of_user( $user_id ) {
+
+		if ( ! function_exists( 'get_blogs_of_user' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/user.php' );
+		}
+
+		$sites = get_blogs_of_user( $user_id );
+
+		foreach ( $sites as $index => &$site ) {
+			if ( ! get_blog_option( $site->userblog_id, $this->prefix . 'test_drive_site' ) ) {
+				$site = false;
+			}
+		}
+
+		return array_filter( $sites );
+
+	}
 
 }

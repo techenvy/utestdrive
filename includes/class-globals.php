@@ -128,10 +128,12 @@ class Globals {
 	public static function get_default_options_array() {
 
 		$default_options = array(
-			'test_site_expiry_in_hours' => 48,
-			'is_delete_orphan_users'    => 'no',
-			'test_site_user_role'       => 'administrator',
-			'auto_delete_test_site'     => 'yes',
+			'test_drive_expiry_in_hours'       => 48,
+			'is_delete_orphan_users'          => 'no',
+			'test_site_user_role'             => 'administrator',
+			'auto_delete_test_site'           => 'yes',
+			'auto_delete_test_user'           => 'yes',
+			'delete_sub_sites_on_user_delete' => 'no'
 		);
 
 		$default_options = apply_filters( 'utestdrive_admin_settings_default', $default_options );

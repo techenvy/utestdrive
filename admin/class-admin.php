@@ -1,6 +1,7 @@
 <?php
 
 namespace Utestdrive;
+
 use Boo_Settings_Helper;
 
 /**
@@ -77,9 +78,11 @@ class Admin {
 
 	/**
 	 * @hooked wpmu_blogs_columns
+	 *
 	 * @param $columns
+	 *
 	 * @return mixed
-*/
+	 */
 	public function wpmu_users_columns( $columns ) {
 
 		$columns['user_expiry'] = esc_html__( 'Expiry', 'utestdrive' );
@@ -113,8 +116,9 @@ class Admin {
 
 	/**
 	 * @param $expiry_timestamp
+	 *
 	 * @return string
-*/
+	 */
 	public function get_expiry_time_text( $expiry_timestamp ) {
 
 		if ( empty( $expiry_timestamp ) ) {
@@ -133,10 +137,12 @@ class Admin {
 
 	/**
 	 * @hooked manage_sites_custom_column
+	 *
 	 * @param $column_name
 	 * @param $blog_id
+	 *
 	 * @return mixed
-*/
+	 */
 	public function wpmu_blogs_columns_values( $column_name, $blog_id ) {
 
 		if ( 'site_expiry' === $column_name ) {
@@ -220,6 +226,15 @@ class Admin {
 				'id'    => 'test_site',
 				'title' => __( 'Test Site Settings', 'utestdrive' ),
 			),
+			array(
+				'id'    => 'help',
+				'title' => __( 'Help', 'utestdrive' ),
+			),
+			array(
+				'id'    => 'contribute',
+				'title' => __( 'Contribute', 'utestdrive' ),
+			),
+
 		) );
 
 	}
@@ -287,6 +302,60 @@ class Admin {
 				'default' => Globals::get_options_value( 'is_delete_orphan_users' )
 			),
 
+		) );
+
+		$options_fields['help'] = apply_filters( 'utestdrive_filter_config_settings_fields_help', array(
+
+			array(
+				'id'    => 'help_links',
+				'type'  => 'html',
+				'label' => __( 'Some Help Links', 'utestdrive' ),
+				'desc'  => sprintf(
+					'
+							<a href="https://wordpress.org/plugins/utestdrive/" target="_blank">%s</a><br/><br/>
+							<a href="https://wordpress.org/plugins/utestdrive/#faq" target="_blank">%s</a><br/><br/>
+							<a href="https://github.com/boospot/utestdrive" target="_blank">%s</a><br/><br/>
+							',
+					esc_html__( 'Plugin Page', 'utestdrive' ),
+					esc_html__( 'FAQ', 'utestdrive' ),
+					esc_html__( 'Github Repo', 'utestdrive' )
+				),
+			),
+			array(
+				'id'    => 'report_issue',
+				'type'  => 'html',
+				'label' => __( 'Found a Bug?', 'utestdrive' ),
+				'desc'  => sprintf(
+					'
+							<a href="https://wordpress.org/support/plugin/utestdrive/" target="_blank">%s</a><br/><br/>
+							<a href="https://github.com/boospot/utestdrive/issues" target="_blank">%s</a><br/>
+							',
+					esc_html__( 'Open a Support Ticket', 'utestdrive' ),
+					esc_html__( 'Open an issue on Github Repo', 'utestdrive' )
+
+				),
+			),
+		) );
+
+		$options_fields['contribute'] = apply_filters( 'utestdrive_filter_config_settings_fields_contribute', array(
+
+			array(
+				'id'    => 'contribute_links',
+				'type'  => 'html',
+				'label' => __( 'Want to Contribute?', 'utestdrive' ),
+				'desc'  => sprintf(
+					'
+							<a href="https://github.com/boospot/utestdrive" target="_blank">%s</a><br/><br/>
+							<a href="https://www.buymeacoffee.com/raoabid" target="_blank">%s</a> <span style="color: red;" class="dashicons dashicons-heart"></span><br/><br/>
+							<a href="https://wordpress.org/plugins/search/utestdrive/" target="_blank">%s</a></br><br/>
+							<a href="https://wordpress.org/support/plugin/utestdrive/reviews/" target="_blank">%s</a></br><br/>
+							',
+					esc_html__( 'Contribute on Github Repo', 'utestdrive' ),
+					esc_html__( 'Buy Me a Coffee', 'utestdrive' ),
+					esc_html__( 'Translate Plugin', 'utestdrive' ),
+					esc_html__( 'Review Plugin', 'utestdrive' )
+				),
+			),
 		) );
 
 		return apply_filters( 'utestdrive_filter_config_settings_fields', $options_fields );

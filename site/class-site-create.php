@@ -84,7 +84,7 @@ class Site_Create {
 			return null;
 		}
 
-		$nonce    = $_REQUEST['_nonce_test_drive'] ?? '';
+		$nonce    = isset( $_REQUEST['_nonce_test_drive'] ) ? $_REQUEST['_nonce_test_drive'] : '';
 		$redirect = add_query_arg( 'test_setup', 'failed', parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
 
 		if ( ! wp_verify_nonce( $nonce, 'create_test_drive' ) ) {
@@ -146,7 +146,7 @@ class Site_Create {
 			'invalid_user_name' => esc_html__( 'Please provide a valid name', 'utestdrive' ),
 		) );
 
-		return $errors[ $code ] ?? esc_html__( 'Unknown Error occurred', 'utestdrive' );
+		return isset( $errors[ $code ] ) ? $errors[ $code ] : esc_html__( 'Unknown Error occurred', 'utestdrive' );
 
 	}
 

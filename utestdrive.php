@@ -17,8 +17,8 @@
  * Plugin Name:       uTestDrive
  * Plugin URI:        https://boospot.com/
  * Description:       The Plugin to create Demo Test Drive setup for plugin and theme authors
- * Requires PHP:      7.0
- * Requires at least: 5.0
+ * Requires PHP:      5.6
+ * Requires at least: 4.7
  * Tested up to:      5.3
  * Version:           1.0.0
  * Author:            Rao

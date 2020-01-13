@@ -1,0 +1,175 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Language: \n"
+"POT-Creation-Date: 2020-01-13 11:49+0000\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: admin/class-admin.php:72 admin/class-admin.php:85
+msgid "Expiry"
+msgstr ""
+
+#: admin/class-admin.php:121
+msgid "Never Expire"
+msgstr ""
+
+#: admin/class-admin.php:126
+msgid "EXPIRED"
+msgstr ""
+
+#: admin/class-admin.php:126
+msgid "ago"
+msgstr ""
+
+#. Name of the plugin
+#: admin/class-admin.php:181 admin/class-admin.php:183
+msgid "uTestDrive"
+msgstr ""
+
+#: admin/class-admin.php:204
+msgid "Configure"
+msgstr ""
+
+#: admin/class-admin.php:208
+msgid "Github Repo"
+msgstr ""
+
+#: admin/class-admin.php:221
+msgid "Test Site Settings"
+msgstr ""
+
+#: admin/class-admin.php:237
+msgid "User role to assign for test site creator"
+msgstr ""
+
+#: admin/class-admin.php:238
+msgid ""
+"if a role other than \"Administrator\" is selected, new site will have "
+"administrator assigned from first available \"Super Admin\" users."
+msgstr ""
+
+#: admin/class-admin.php:245
+msgid "Test Drive Expiry"
+msgstr ""
+
+#: admin/class-admin.php:246
+msgid ""
+"(in hours). After the lapse of this period, test drive user and test drive "
+"site shall auto deleted if option enabled."
+msgstr ""
+
+#: admin/class-admin.php:256
+msgid "Auto delete test Site?"
+msgstr ""
+
+#: admin/class-admin.php:257 admin/class-admin.php:269
+#, php-format
+msgid "If enabled, %s shall auto delete after the expiry time specified."
+msgstr ""
+
+#: admin/class-admin.php:257
+msgid "test drive site"
+msgstr ""
+
+#: admin/class-admin.php:259 admin/class-admin.php:271
+#: admin/class-admin.php:284
+msgid "Yes"
+msgstr ""
+
+#: admin/class-admin.php:260 admin/class-admin.php:272
+#: admin/class-admin.php:285
+msgid "No"
+msgstr ""
+
+#: admin/class-admin.php:268
+msgid "Auto delete test User?"
+msgstr ""
+
+#: admin/class-admin.php:269
+msgid "test drive user"
+msgstr ""
+
+#: admin/class-admin.php:281
+msgid "Delete orphan users after auto deleting test site?"
+msgstr ""
+
+#: admin/class-admin.php:282
+msgid ""
+"Delete all users who has no sites or content? These are typically created "
+"when test drive sites have created some users."
+msgstr ""
+
+#: includes/class-activator.php:42
+msgid "WordPress Site Network"
+msgstr ""
+
+#: includes/class-shortcode.php:79
+msgid "This shortcode is intended for main site only."
+msgstr ""
+
+#: includes/class-shortcode.php:91
+msgid "Success!"
+msgstr ""
+
+#: includes/class-shortcode.php:91
+msgid "Please check your email for login details."
+msgstr ""
+
+#: includes/class-shortcode.php:95
+msgid "Unknown Error Occurred"
+msgstr ""
+
+#: includes/class-shortcode.php:107
+msgid "Your Name"
+msgstr ""
+
+#: includes/class-shortcode.php:111
+msgid "Your Email"
+msgstr ""
+
+#: includes/class-shortcode.php:116
+msgid "Create Test Drive Setup"
+msgstr ""
+
+#: site/class-site-create.php:142
+msgid "Security token invalid"
+msgstr ""
+
+#: site/class-site-create.php:143
+msgid ""
+"User already exist with provided email. Please try with another user details"
+msgstr ""
+
+#: site/class-site-create.php:144
+msgid "There was an error creating site. Please try with different Email."
+msgstr ""
+
+#: site/class-site-create.php:145
+msgid "Please provide a valid email or use another email address."
+msgstr ""
+
+#: site/class-site-create.php:146
+msgid "Please provide a valid name"
+msgstr ""
+
+#: site/class-site-create.php:149
+msgid "Unknown Error occurred"
+msgstr ""
+
+#. Description of the plugin
+msgid "The Plugin to create Demo Test Drive setup for plugin and theme authors"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://boospot.com/"
+msgstr ""
+
+#. Author of the plugin
+msgid "Rao"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://booskills.com/rao"
+msgstr ""

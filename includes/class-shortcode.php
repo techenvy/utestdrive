@@ -64,21 +64,15 @@ class Shortcode {
 	public function hook_display_form( $atts = [], $content = null, $tag = '' ) {
 
 
+	    /*
+	     * Bail out if shortcode called on a sub site
+	     */
 		if ( ! is_main_site( get_current_blog_id() ) ) {
 			return sprintf(
 				'<div class="utd-response-cont"><p class="error">%s</p></div>',
 				esc_html__( 'This shortcode is intended for main site only.', 'utestdrive' )
 			);
 		}
-		// normalize attribute keys, lowercase
-		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
-
-		$atts = shortcode_atts( array(
-			// Update the default Values
-			'arg_1' => true,
-			'arg_2' => 'arg Value',
-
-		), $atts );
 
 		// start output
 		ob_start();

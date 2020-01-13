@@ -1,6 +1,6 @@
 {
   "name": "boospot/utestdrive",
-  "description": "Utestdrive for WordPress Plugin Boilerplate with Namespace",
+  "description": "A WordPress Plugin to create a Test Drive setup for Plugin and Theme authors",
   "type": "wordpress-plugin",
   "license": "GPL2",
   "authors": [
@@ -16,7 +16,6 @@
     "classmap": [
       "includes",
       "admin",
-      "public",
       "site"
     ]
   }

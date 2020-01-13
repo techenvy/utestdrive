@@ -88,8 +88,6 @@ class Init {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
-		$this->define_public_hooks();
-		$this->define_taxonomy_hooks();
 		$this->define_shortcode_hooks();
 		$this->define_site_create_hooks();
 		$this->define_site_delete_hooks();
@@ -159,9 +157,6 @@ class Init {
 
 		$plugin_admin = new Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
 		/*
 		 * Added the plugin options menu and page
 		 */
@@ -204,38 +199,6 @@ class Init {
 		return $this->version;
 	}
 
-	/**
-	 * Register all of the hooks related to the public-facing functionality
-	 * of the plugin.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_public_hooks() {
-
-		if ( is_admin() ) {
-			return null;
-		}
-
-		$plugin_public = new Front( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
-	}
-
-	/**
-	 * Register all of the hooks related to taxonomies
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function define_taxonomy_hooks() {
-
-//		$plugin_taxonomies = new Taxonomy();
-
-
-	}
 
 	/**
 	 * Register Shortcodes
@@ -280,19 +243,6 @@ class Init {
 			'utestdrive_cron_auto_delete_test_drive_blog',
 			$site_delete,
 			'cron_action_auto_delete_test_drive_blog'
-		);
-
-		$this->loader->add_action(
-			'wpmu_delete_user',
-			$site_delete,
-			'hook_wpmu_delete_user'
-		);
-
-
-		$this->loader->add_action(
-			'wp',
-			$site_delete,
-			'delete_sites_with_schedule_expiry'
 		);
 
 	}

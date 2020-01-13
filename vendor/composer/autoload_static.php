@@ -14,7 +14,6 @@ class ComposerStaticInitf953438782c78e200b21ad2e083164a7
         'Utestdrive\\Activator' => __DIR__ . '/../..' . '/includes/class-activator.php',
         'Utestdrive\\Admin' => __DIR__ . '/../..' . '/admin/class-admin.php',
         'Utestdrive\\Deactivator' => __DIR__ . '/../..' . '/includes/class-deactivator.php',
-        'Utestdrive\\Front' => __DIR__ . '/../..' . '/public/class-front.php',
         'Utestdrive\\Globals' => __DIR__ . '/../..' . '/includes/class-globals.php',
         'Utestdrive\\Init' => __DIR__ . '/../..' . '/includes/class-init.php',
         'Utestdrive\\Loader' => __DIR__ . '/../..' . '/includes/class-loader.php',

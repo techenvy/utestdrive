@@ -110,7 +110,7 @@ class Site_Create {
 		$this->user_id = $this->create_user();
 
 		if ( ! $this->user_id ) {
-			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'user_exist' ) . var_export( $this->user_id, true ) ), $redirect );
+			$redirect = add_query_arg( 'message', urlencode( $this->get_error_message( 'user_exist' ) ), $redirect );
 			wp_safe_redirect( $redirect );
 			exit;
 		}

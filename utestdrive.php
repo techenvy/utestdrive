@@ -15,14 +15,14 @@
  *
  * @wordpress-plugin
  * Plugin Name:       uTestDrive
- * Plugin URI:        https://boospot.com/
+ * Plugin URI:        https://wordpress.org/plugins/utestdrive/
  * Description:       The Plugin to create Demo Test Drive setup for plugin and theme authors
  * Requires PHP:      5.6
  * Requires at least: 4.7
  * Tested up to:      5.3
- * Version:           1.0.0
- * Author:            Rao
- * Author URI:        https://booskills.com/rao
+ * Version:           1.0.1
+ * Author:            BooSpot
+ * Author URI:        https://boospot.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       utestdrive
@@ -39,7 +39,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'UTESTDRIVE_VERSION', '1.0.0' );
+define( 'UTESTDRIVE_VERSION', '1.0.1' );
 
 define( 'UTESTDRIVE_PLUGIN_NAME', 'utestdrive' );
 

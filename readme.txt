@@ -28,6 +28,12 @@ The Plugin to create Demo Test Drive setup for plugin and theme authors
 1. Test drive user and Test drive site created in step 3 , auto deletes after the expiry of stipulated period.
 2. Plugin does not save any data for test drive user or site, if you need to have a list of users who created the test drive site, please install [flamingo](https://wordpress.org/plugins/flamingo/). (works out of box, just activate the plugin and all users registered will be saved)
 
+**Credits**
+
+- Thanks to excellent article by John Turner at [SeedProd](https://www.seedprod.com/setup-demo-site-plugin-theme/)
+
+
+
 == Installation ==
 **Automatic Plugin Installation**
 
@@ -59,6 +65,31 @@ This plugin is intended for Multisite installation with php 5.6+ and WordPress 4
 = Styling of Form ==
 plugin does not load any css or styling, just provide css classes in the form elements. please style as per your requirements. Don't want to super-impose my design taste to others.
 
+However, if you want it to style response messages like Bootstrap alert messages, yu may use following css:
+
+```css
+.utd-response-cont .success {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #c3e6cb;
+    border-radius: .25rem;
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.utd-response-cont .error {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: .25rem;
+    color: #721c24;
+    background-color: #f8d7da;
+
+}
+```
+
 = Is plugin translation ready =
 Yes, plugin is translation ready
 
@@ -76,6 +107,12 @@ Yes, You may browse it here: [https://github.com/boospot/utestdrive](https://git
 
 
 == Changelog ==
+
+= 1.0.1 =
+
+- Update: Better error message in case of user ealready exists
+- Update: updated readme
+
 = 1.0.0 =
 Initial Release of plugin
 

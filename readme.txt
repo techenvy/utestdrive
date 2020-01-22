@@ -110,7 +110,7 @@ Yes, You may browse it here: [https://github.com/boospot/utestdrive](https://git
 
 = 1.0.1 =
 
-- Update: Better error message in case of user ealready exists
+- Update: Better error message in case of user already exists
 - Update: updated readme
 
 = 1.0.0 =
